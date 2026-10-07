@@ -1,0 +1,1 @@
+{"name":"accortic-materiali","version":"1.0.0","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs","validate":"node scripts/validate.mjs","build":"node scripts/build.mjs"},"dependencies":{"parse5":"8.0.1"}}

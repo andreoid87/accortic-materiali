@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://andreoid87.github.io/accortic-materiali/schema/material-v1",
+  "title": "AccorTIC static material manifest v1",
+  "type": "object",
+  "required": ["schemaVersion", "materialId", "version", "title", "width", "height", "slideOrder", "slides", "assets", "files", "packageHash", "source", "approval"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "materialId": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "version": {"type": "integer", "minimum": 1},
+    "title": {"type": "string", "minLength": 1},
+    "width": {"type": "number", "exclusiveMinimum": 0, "maximum": 4000},
+    "height": {"type": "number", "exclusiveMinimum": 0, "maximum": 4000},
+    "slideOrder": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-zA-Z0-9_-]+$"}},
+    "slides": {"type": "object", "additionalProperties": {"type": "object", "required": ["title", "assets", "tags", "coverage"], "properties": {"title": {"type": "string"}, "assets": {"type": "array", "items": {"type": "string"}}, "tags": {"type": "array", "items": {"type": "object", "required": ["id", "weight"], "properties": {"id": {"type": "string"}, "weight": {"type": "number", "exclusiveMinimum": 0}}}}, "coverage": {"type": "object", "required": ["reference"]}}}},
+    "assets": {"type": "array", "items": {"type": "object", "required": ["path", "mime", "origin", "alt"]}},
+    "files": {"type": "array", "items": {"type": "object", "required": ["path", "bytes", "sha256"], "properties": {"path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 0}, "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}}},
+    "packageHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source": {"type": "object", "required": ["presentationId", "revision", "project"], "properties": {"project": {"type": "object", "required": ["format", "uri", "editorStatus"]}}},
+    "approval": {"type": "object", "required": ["publicDistribution", "imageOrigin", "evidence"], "properties": {"publicDistribution": {"const": true}, "imageOrigin": {"const": "teacher-declared-ai-generated"}, "evidence": {"type": "string", "minLength": 1}}}
+  }
+}

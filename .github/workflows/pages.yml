@@ -1,0 +1,58 @@
+name: Validate and publish materials
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: materials-pages
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: |
+          if [ -z "$BASE_SHA" ]; then
+            export BASE_SHA="$(git rev-parse HEAD^)"
+          fi
+          npm run build
+        env:
+          BASE_SHA: ${{ github.event.before }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .site
+  deploy:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Verify deployed manifests and every asset
+        run: node scripts/smoke.mjs "$PAGES_URL"
+        env:
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
