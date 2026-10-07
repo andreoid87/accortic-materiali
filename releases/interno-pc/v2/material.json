@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "materialId": "interno-pc",
+  "version": 2,
+  "title": "Presentazione — Interno del PC: CPU, memorie e motherboard",
+  "width": 960,
+  "height": 540,
+  "slideOrder": [
+    "p1",
+    "p2",
+    "p3",
+    "p4",
+    "h7039a49162173076_0_100",
+    "p5",
+    "p6",
+    "p7",
+    "case_rear_slide",
+    "h265b8a00713bbd1c_3_5",
+    "p9"
+  ],
+  "slides": {
+    "p1": {
+      "title": "Interno del PC",
+      "assets": [
+        "assets/c2ed0252b22bb5c2b874.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "pp. 42–49",
+        "sourcePresentationSlide": "p1"
+      }
+    },
+    "p2": {
+      "title": "Il modello di von Neumann",
+      "assets": [
+        "assets/74f093655cd7fd11a005.webp",
+        "assets/c553afb0b19eb605888e.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "pp. 42–43",
+        "sourcePresentationSlide": "p2"
+      }
+    },
+    "p3": {
+      "title": "Dentro la CPU: ALU e CU",
+      "assets": [
+        "assets/f530dfd03cbfe6652b2e.webp",
+        "assets/37f76003d0114a6de36f.webp",
+        "assets/9b01989b6a9aec0791bd.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "pp. 43–44",
+        "sourcePresentationSlide": "p3"
+      }
+    },
+    "p4": {
+      "title": "Come lavora la CPU",
+      "assets": [
+        "assets/6d564c675d3a2f37ba9c.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "p. 44",
+        "sourcePresentationSlide": "p4"
+      }
+    },
+    "h7039a49162173076_0_100": {
+      "title": "Cosa contiene la CPU",
+      "assets": [
+        "assets/fbf6293adcf6e4850c1f.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "p. 44",
+        "sourcePresentationSlide": "h7039a49162173076_0_100"
+      }
+    },
+    "p5": {
+      "title": "Cache, RAM e ROM",
+      "assets": [
+        "assets/44b278f36bbcd8f35576.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "pp. 44–45",
+        "sourcePresentationSlide": "p5"
+      }
+    },
+    "p6": {
+      "title": "Motherboard: i componenti principali",
+      "assets": [
+        "assets/2ed1cdccc8067eca7f8a.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "p. 46",
+        "sourcePresentationSlide": "p6"
+      }
+    },
+    "p7": {
+      "title": "Il case: cosa troviamo sul frontale",
+      "assets": [
+        "assets/457e4c1198a227df6834.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "p. 48",
+        "sourcePresentationSlide": "p7"
+      }
+    },
+    "case_rear_slide": {
+      "title": "Retro del case, raffreddamento e GPU",
+      "assets": [
+        "assets/58ce5c5dbe2e8061d137.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "p. 49",
+        "sourcePresentationSlide": "case_rear_slide"
+      }
+    },
+    "h265b8a00713bbd1c_3_5": {
+      "title": "Retro del case, le porte",
+      "assets": [
+        "assets/9c9e97912c13470ca85e.webp"
+      ],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "p. 49",
+        "sourcePresentationSlide": "h265b8a00713bbd1c_3_5"
+      }
+    },
+    "p9": {
+      "title": "Dentro il PC",
+      "assets": [],
+      "tags": [],
+      "tagStatus": "pending-P31D",
+      "coverage": {
+        "reference": "pp. 42–49",
+        "sourcePresentationSlide": "p9"
+      }
+    }
+  },
+  "assets": [
+    {
+      "path": "assets/c2ed0252b22bb5c2b874.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Interno del PC"
+    },
+    {
+      "path": "assets/74f093655cd7fd11a005.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Il modello di von Neumann"
+    },
+    {
+      "path": "assets/c553afb0b19eb605888e.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Il modello di von Neumann"
+    },
+    {
+      "path": "assets/f530dfd03cbfe6652b2e.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Dentro la CPU: ALU e CU"
+    },
+    {
+      "path": "assets/37f76003d0114a6de36f.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Dentro la CPU: ALU e CU"
+    },
+    {
+      "path": "assets/9b01989b6a9aec0791bd.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Dentro la CPU: ALU e CU"
+    },
+    {
+      "path": "assets/6d564c675d3a2f37ba9c.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Come lavora la CPU"
+    },
+    {
+      "path": "assets/fbf6293adcf6e4850c1f.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Cosa contiene la CPU"
+    },
+    {
+      "path": "assets/44b278f36bbcd8f35576.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Cache, RAM e ROM"
+    },
+    {
+      "path": "assets/2ed1cdccc8067eca7f8a.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Motherboard: i componenti principali"
+    },
+    {
+      "path": "assets/457e4c1198a227df6834.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Il case: cosa troviamo sul frontale"
+    },
+    {
+      "path": "assets/58ce5c5dbe2e8061d137.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Retro del case, raffreddamento e GPU"
+    },
+    {
+      "path": "assets/9c9e97912c13470ca85e.webp",
+      "mime": "image/webp",
+      "origin": "teacher-declared-ai-generated",
+      "alt": "Illustrazione didattica: Retro del case, le porte"
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/2ed1cdccc8067eca7f8a.webp",
+      "bytes": 457534,
+      "sha256": "2ed1cdccc8067eca7f8a1af41acbf44ff986f2de4e4299400591890c54548a8d"
+    },
+    {
+      "path": "assets/37f76003d0114a6de36f.webp",
+      "bytes": 120898,
+      "sha256": "37f76003d0114a6de36fbc216a9c4df2224919116785fa5a2f04cd32a96a05e0"
+    },
+    {
+      "path": "assets/44b278f36bbcd8f35576.webp",
+      "bytes": 370044,
+      "sha256": "44b278f36bbcd8f355765a9fea79605fd286d0931a548aeb6ccbc8305fd3d923"
+    },
+    {
+      "path": "assets/457e4c1198a227df6834.webp",
+      "bytes": 136906,
+      "sha256": "457e4c1198a227df68344b1359be3666adf26d636bf7fcf81266d6450f7394fc"
+    },
+    {
+      "path": "assets/58ce5c5dbe2e8061d137.webp",
+      "bytes": 280408,
+      "sha256": "58ce5c5dbe2e8061d1373c7273262021e1dfe5f036dd42e97f917ec7efb04633"
+    },
+    {
+      "path": "assets/6d564c675d3a2f37ba9c.webp",
+      "bytes": 265494,
+      "sha256": "6d564c675d3a2f37ba9c2d2c29f8c08ad886e5694423b9290ab746c59f738cbb"
+    },
+    {
+      "path": "assets/74f093655cd7fd11a005.webp",
+      "bytes": 242416,
+      "sha256": "74f093655cd7fd11a0057168c0d4ae2e022b0f02ad7d6ef5f7ddfae21e1bd940"
+    },
+    {
+      "path": "assets/9b01989b6a9aec0791bd.webp",
+      "bytes": 358392,
+      "sha256": "9b01989b6a9aec0791bd0d15c3a7b90ebc5d2e369def6fdc35154752fcea7610"
+    },
+    {
+      "path": "assets/9c9e97912c13470ca85e.webp",
+      "bytes": 122556,
+      "sha256": "9c9e97912c13470ca85e0e87a14392317ee13e7fe4a6199304bfc29cd69ced5e"
+    },
+    {
+      "path": "assets/c2ed0252b22bb5c2b874.webp",
+      "bytes": 63114,
+      "sha256": "c2ed0252b22bb5c2b8740c32b62398278ea44513df52d8199f3db0052ae0f5e3"
+    },
+    {
+      "path": "assets/c553afb0b19eb605888e.webp",
+      "bytes": 50292,
+      "sha256": "c553afb0b19eb605888e2812bd3a065377a7280de91d33c42aeea1b7efaeef40"
+    },
+    {
+      "path": "assets/f530dfd03cbfe6652b2e.webp",
+      "bytes": 65800,
+      "sha256": "f530dfd03cbfe6652b2e091e0f9be3c8a4c90eedb3ca5a388a4461c7d697d5af"
+    },
+    {
+      "path": "assets/fbf6293adcf6e4850c1f.webp",
+      "bytes": 259800,
+      "sha256": "fbf6293adcf6e4850c1f457459b4039b27067fb799c087dd7204f7b7c01c1ec8"
+    },
+    {
+      "path": "index.html",
+      "bytes": 67493,
+      "sha256": "e687d792416fcd579d8b5dcbc93c97a1a869845734db8fe9ec57d6a36576d7ff"
+    },
+    {
+      "path": "player.js",
+      "bytes": 1367,
+      "sha256": "3404daf2ee86cdf24c7b69851f4fadf0fe9c6b0c977e57315a9e6f0651385528"
+    },
+    {
+      "path": "slides.css",
+      "bytes": 1520,
+      "sha256": "ac8dc8100020d7ae4bd0f24a9c38924e7fed47159a1782b8d5337e9c02ee113b"
+    }
+  ],
+  "packageHash": "3e70d02f3911e494a16e690bf67b90a015ded6162fe7bb1606b83ff2e399f79a",
+  "source": {
+    "presentationId": "1ApwN2f99gIgJLi-Ouli0r1c0LYRw34boAQHNk-CeSzw",
+    "revision": "Svg50-RG0zt4RA",
+    "bibliography": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49",
+    "project": {
+      "format": "google-slides-native-snapshot-v1",
+      "uri": "https://drive.google.com/file/d/1weSrk8SplnoaC3W1-MAlrk9_gVgRyRPX/view",
+      "editorStatus": "P31C-pending"
+    }
+  },
+  "approval": {
+    "publicDistribution": true,
+    "imageOrigin": "teacher-declared-ai-generated",
+    "evidence": "Docente 2026-10-07: «sono immagini generate con IA ho solo preso spunto dal libro»; richiesta di proseguire con distribuzione GitHub Pages."
+  }
+}

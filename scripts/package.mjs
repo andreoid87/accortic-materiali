@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';
 import {join,resolve,dirname} from 'node:path';
 import {parse,serialize} from 'parse5';
 import {walk,attr,digest,canonical,CSP,validateRelease} from './core.mjs';
-const [input,output]=process.argv.slice(2);if(!input||!output)throw Error('Usage: node scripts/package.mjs <reviewed preview directory> <new release directory>');
+const [input,output]=process.argv.slice(2);const version=Number(process.argv[4]??1);if(!Number.isInteger(version)||version<1)throw Error('Invalid version');if(!input||!output)throw Error('Usage: node scripts/package.mjs <reviewed preview directory> <new release directory>');
 const root=resolve(output);await mkdir(dirname(root),{recursive:true});await mkdir(root);await mkdir(join(root,'assets'));
 const source=JSON.parse(await readFile(join(input,'source-snapshot.json'),'utf8'));
 const document=parse(await readFile(join(input,'index.html'),'utf8'));
@@ -10,7 +10,7 @@ const set=(n,k,v)=>{n.attrs??=[];n.attrs=n.attrs.filter(a=>a.name!==k);n.attrs.p
 walk(document,n=>{
  if(n.tagName==='head')n.childNodes=n.childNodes.filter(x=>x.tagName!=='style');
  if(n.tagName==='script'){n.childNodes=[];set(n,'src','player.js');set(n,'defer','');}
- if(n.tagName==='body'){set(n,'data-slide-width','960');set(n,'data-slide-height','540');}
+ if(n.tagName==='section' && (attr(n,'class')??'').split(' ').includes('slide'))set(n,'hidden','');if(n.tagName==='body'){set(n,'data-slide-width','960');set(n,'data-slide-height','540');}
  if(n.tagName==='p'&&attr(n,'class')==='source'){
   const text=n.childNodes.map(x=>x.value??'').join('').replace(/Immagine di apertura:/g,'Riferimento iconografico:').replace(/Immagine:/g,'Riferimento iconografico:').replace(/dal materiale editoriale fornito/g,'come riferimento per l’illustrazione IA').replace(/mostrata integralmente per conservarne frecce e relazioni/g,'usata come riferimento concettuale per frecce e relazioni').replace(/L’immagine originale è mostrata integralmente e ingrandita/g,'L’illustrazione IA è mostrata integralmente e ingrandita').replace(/Immagine originale/g,'Illustrazione IA').replace(/Le immagini didattiche/g,'Le illustrazioni IA');
   n.childNodes=[{nodeName:'#text',value:text+' Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.',parentNode:n}];
@@ -29,5 +29,5 @@ for(const s of source.slides){
 }
 const paths=['index.html','player.js','slides.css',...assets.keys()].sort(),files=[];
 for(const path of paths){const bytes=await readFile(join(root,path));files.push({path,bytes:bytes.length,sha256:digest(bytes)});}
-const manifest={schemaVersion:1,materialId:'interno-pc',version:1,title:source.title,width:960,height:540,slideOrder,slides,assets:[...assets.values()],files,packageHash:digest(canonical(files)),source:{presentationId:source.presentationId,revision:source.revisionId,bibliography:'Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49',project:{format:'google-slides-native-snapshot-v1',uri:'https://drive.google.com/file/d/1weSrk8SplnoaC3W1-MAlrk9_gVgRyRPX/view',editorStatus:'P31C-pending'}},approval:{publicDistribution:true,imageOrigin:'teacher-declared-ai-generated',evidence:'Docente 2026-10-07: «sono immagini generate con IA ho solo preso spunto dal libro»; richiesta di proseguire con distribuzione GitHub Pages.'}};
+const manifest={schemaVersion:1,materialId:'interno-pc',version,title:source.title,width:960,height:540,slideOrder,slides,assets:[...assets.values()],files,packageHash:digest(canonical(files)),source:{presentationId:source.presentationId,revision:source.revisionId,bibliography:'Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49',project:{format:'google-slides-native-snapshot-v1',uri:'https://drive.google.com/file/d/1weSrk8SplnoaC3W1-MAlrk9_gVgRyRPX/view',editorStatus:'P31C-pending'}},approval:{publicDistribution:true,imageOrigin:'teacher-declared-ai-generated',evidence:'Docente 2026-10-07: «sono immagini generate con IA ho solo preso spunto dal libro»; richiesta di proseguire con distribuzione GitHub Pages.'}};
 await writeFile(join(root,'material.json'),JSON.stringify(manifest,null,2)+'\n');console.log(await validateRelease(root));
