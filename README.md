@@ -6,7 +6,7 @@ Un repository per i pacchetti HTML approvati. Sorgenti/editor e versioni di lavo
 
 Ogni release è immutabile: `releases/interno-pc/v1/` diventa `https://andreoid87.github.io/accortic-materiali/interno-pc/v1/`. `#slideId` seleziona una slide; `?single=1#slideId` la mostra senza barra. Non occorre un repository/file per ogni slide.
 
-material.json v1: identità/versione/hash; slideOrder separato da slides con ID stabili, titolo, asset, tag pesati (vuoti fino a P31D), Coverage/riferimenti; file con byte/SHA256; approvazione pubblica e provenienza; progetto riapribile sul Drive in formato snapshot nativo. L'adattatore GrapesJS è P31C, non implementato qui. Non trasferire snapshot editoriali nel sito pubblico.
+material.json v1: identità/versione/hash; slideOrder separato da slides con ID stabili, titolo, asset, tag pesati (vuoti fino a P31D), Coverage/riferimenti; file con byte/SHA256; approvazione pubblica e provenienza; progetto riapribile sul Drive in formato snapshot nativo. L'editor GrapesJS è nell'app AccorTIC; la compilazione candidata P31C è tooling separato, non un publisher attivo. Non trasferire snapshot editoriali nel sito pubblico.
 
 `node scripts/package.mjs <preview-verificata> <nuova-cartella-release>` produce HTML senza script editoriale, player/CSS fidati e asset content-addressed. Mantiene l'ordine e i riferimenti originali. Le illustrazioni Interno PC sono dichiarate dal docente generate con IA prendendo spunto dal libro (2026-10-07); non attribuire alle figure la provenienza di scansioni del manuale. Nessuna licenza CC o cessione di diritti implicita: sola autorizzazione alla distribuzione richiesta.
 
@@ -28,3 +28,11 @@ Corrente: https://andreoid87.github.io/accortic-materiali/interno-pc/v2/ ; v1 re
 
 Misura CPU p3:555459byte compressi cold,transfer warm0 nella prova browser; Cache-Control max-age=600. Pacchetto completo v2 con manifest2873860byte decodificati. Asset unici e riusati fra canvas/lettura dentro la release; ogni versione conserva la propria copia,non dedup globale. Criteri/editor/mappatura sono i successivi P31C/D/E; non implementati qui.
 
+
+## Compilatore candidato P31C — 2026-10-08
+
+Il repository applicativo contiene `.github/diagnostics/compile-materials.mjs`: converte uno snapshot nativo accortic-grapes-v1 in un pacchetto locale non pubblicato. Riusa parser e GrapesJS dell'app, valida prima di instanziare, esclude richieste di rete del renderer, localizza/deduplica le immagini approvate e conserva testi, tabelle, SVG e lettura alternativa. Le regole del canvas editoriale960px diventano indipendenti dalla larghezza esterna; le altre media query restano intatte.
+
+Questo repo valida anche gli stili statici del compilatore: vietati CSS con risorse esterne, import/font remoti, attributi attivi e riferimenti SVG esterni. I runtime/player approvati e tutte le release precedenti restano invariati. `npm test` copre i nuovi vincoli; `npm run build` conserva il controllo di immutabilità.
+
+Il candidato scrive esclusivamente in una nuova directory temporanea fuori `releases`, mai sovrascrivendo. Non legge il Drive autenticato, non certifica la revisione indicata dal chiamante, non committa/avvia Pages e non cambia `current`. L'artefatto locale di prova non è una release approvata. Il worker fidato deve ancora legare identità docente, snapshot/revisione Drive e approvazione, prima di compilare, pubblicare e attivare una nuova versione dopo lo smoke. Nessun token nella SPA.

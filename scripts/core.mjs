@@ -9,12 +9,14 @@ export const canonical=value=>JSON.stringify(value);
 export async function filesAt(root,prefix=''){const entries=await readdir(join(root,prefix),{withFileTypes:true});const result=[];for(const e of entries){assert(!e.isSymbolicLink(),'Symlinks prohibited');const path=prefix?prefix+'/'+e.name:e.name;if(e.isDirectory())result.push(...await filesAt(root,path));else result.push(path);}return result.sort();}
 export function walk(node,fn){fn(node);for(const child of node.childNodes??[])walk(child,fn);}
 export const attr=(node,name)=>node.attrs?.find(a=>a.name===name)?.value;
+export function validateEditorialCss(css){assert(typeof css==='string'&&!/url\s*\(|@import|@font-face|expression\s*\(|javascript:|behavior\s*:|-moz-binding|[\\<>]/i.test(css),'Remote/executable CSS prohibited');}
 export function validateHtml(html,manifest){
- const allowed=new Set(['html','head','meta','title','link','body','header','h1','label','select','option','button','main','section','div','img','table','colgroup','col','tbody','tr','td','span','a','svg','defs','marker','path','details','summary','p','script']);
+ const allowed=new Set(['html','head','meta','title','link','style','body','header','h1','label','select','option','button','main','section','div','img','table','colgroup','col','tbody','tr','td','span','a','svg','defs','marker','path','details','summary','p','script','h2','h3','h4','h5','h6','ul','ol','li','thead','th','caption','br','hr','strong','em','b','i','u','article','footer','aside','figure','figcaption','line','rect','circle','ellipse','polygon','polyline','g','text','tspan']);
  const ids=[],assets=new Set(manifest.assets.map(a=>a.path));let scripts=0,csp=false;
  walk(parse(html),n=>{if(!n.tagName)return;assert(allowed.has(n.tagName),'Unsupported HTML '+n.tagName);
-  for(const a of n.attrs??[]){assert(!/^on/i.test(a.name),'Event handlers prohibited');if(a.name==='style')assert(!/url\s*\(|@import|expression/i.test(a.value),'Remote/executable CSS prohibited');}
-  if(n.tagName==='meta'){assert(attr(n,'http-equiv')!=='refresh','Redirect prohibited');if(attr(n,'http-equiv')==='Content-Security-Policy')csp=attr(n,'content')===CSP;}
+  for(const a of n.attrs??[]){assert(!a.prefix,'Namespaced attributes prohibited');assert(!/^on/i.test(a.name),'Event handlers prohibited');assert(!['srcdoc','srcset','action','formaction','is','contenteditable','xlink:href','xmlns:xlink'].includes(a.name),'Active attributes prohibited');if(a.name==='style')validateEditorialCss(a.value);if(a.name!=='style'&&/url\s*\(/i.test(a.value))assert(/^url\(#[A-Za-z0-9_-]+\)$/.test(a.value),'External SVG reference prohibited');if(a.name==='src')assert(n.tagName==='img'||n.tagName==='script','External element resource prohibited');if(a.name==='href'&&n.tagName!=='a'&&n.tagName!=='link')assert(/^#[A-Za-z0-9_-]+$/.test(a.value),'External SVG href prohibited');}
+  if(n.tagName==='style')validateEditorialCss((n.childNodes??[]).map(x=>x.value??'').join(''));
+  if(n.tagName==='meta'){assert((attr(n,'http-equiv')??'').toLowerCase()!=='refresh','Redirect prohibited');if(attr(n,'http-equiv')==='Content-Security-Policy')csp=attr(n,'content')===CSP;}
   if(n.tagName==='script'){scripts++;assert(attr(n,'src')==='player.js'&&!n.childNodes.some(x=>x.value?.trim()),'Only trusted external player allowed');}
   if(n.tagName==='link')assert(attr(n,'rel')==='stylesheet'&&attr(n,'href')==='slides.css','Only local stylesheet allowed');
   if(n.tagName==='img')assert(assets.has(attr(n,'src')),'Unlisted image');
