@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 1,
+  "materialId": "interno-pc",
+  "version": 4,
+  "title": "Presentazione — Interno del PC: CPU, memorie e motherboard",
+  "width": 960,
+  "height": 540,
+  "slideOrder": [
+    "p1",
+    "p2",
+    "p3",
+    "p4",
+    "h7039a49162173076_0_100",
+    "p5",
+    "p6",
+    "p7",
+    "case_rear_slide",
+    "h265b8a00713bbd1c_3_5",
+    "p9"
+  ],
+  "slides": {
+    "p1": {
+      "title": "Interno del PC",
+      "tags": [],
+      "assets": [
+        "assets/c2ed0252b22bb5c2b874.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\npp. 42–49\nFonte: Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Sanoma/Linx, Unità 3, pp. 42–49. Riferimento iconografico: p. 42, Figura 1, come riferimento per l’illustrazione IA.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p1"
+      }
+    },
+    "p2": {
+      "title": "Il modello di von Neumann",
+      "tags": [],
+      "assets": [
+        "assets/c553afb0b19eb605888e.webp",
+        "assets/74f093655cd7fd11a005.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\npp. 42–43\nFonte: pp. 42–43, modello logico-funzionale di von Neumann e descrizione di CPU, memoria centrale, periferiche di input/output e bus. Riferimento iconografico: p. 42, Figura 2, usata come riferimento concettuale per frecce e relazioni.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p2"
+      }
+    },
+    "p3": {
+      "title": "Dentro la CPU: ALU e CU",
+      "tags": [],
+      "assets": [
+        "assets/f530dfd03cbfe6652b2e.webp",
+        "assets/37f76003d0114a6de36f.webp",
+        "assets/9b01989b6a9aec0791bd.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\npp. 43–44\nFonte: pp. 43–44. La CPU corrisponde fisicamente al microprocessore; ALU = elaborazione logico-matematica, CU = controllo e sincronizzazione. Riferimento iconografico: p. 43, Figura 3.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p3"
+      }
+    },
+    "p4": {
+      "title": "Come lavora la CPU",
+      "tags": [],
+      "assets": [
+        "assets/6d564c675d3a2f37ba9c.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\np. 44\nFonte: p. 44. Ciclo di istruzione fetch → decode → execute; registri interni, clock e core come elementi che concorrono al funzionamento della CPU.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p4"
+      }
+    },
+    "h7039a49162173076_0_100": {
+      "title": "Cosa contiene la CPU",
+      "tags": [],
+      "assets": [
+        "assets/fbf6293adcf6e4850c1f.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\np. 44\nFonte: p. 44. Ciclo di istruzione fetch → decode → execute; registri interni, clock e core come elementi che concorrono al funzionamento della CPU.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "h7039a49162173076_0_100"
+      }
+    },
+    "p5": {
+      "title": "Cache, RAM e ROM",
+      "tags": [],
+      "assets": [
+        "assets/44b278f36bbcd8f35576.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\npp. 44–45\nFonte: pp. 44–45. Confronto tra cache, RAM e ROM; volatilità della RAM e permanenza della ROM; BIOS nella ROM. Riferimento iconografico: p. 45, Figura 4.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p5"
+      }
+    },
+    "p6": {
+      "title": "Motherboard: i componenti principali",
+      "tags": [],
+      "assets": [
+        "assets/2ed1cdccc8067eca7f8a.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\np. 46\nFonte: p. 46. Motherboard con ROM, slot PCI Express, chipset, batteria e SATA. L’illustrazione IA è mostrata integralmente e ingrandita per rendere leggibili frecce ed etichette.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p6"
+      }
+    },
+    "p7": {
+      "title": "Il case: cosa troviamo sul frontale",
+      "tags": [],
+      "assets": [
+        "assets/457e4c1198a227df6834.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\np. 48\nFonte: p. 48. Parte frontale del case con pulsanti, LED, porte USB e audio. Immagine mostrata integralmente e ingrandita.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p7"
+      }
+    },
+    "case_rear_slide": {
+      "title": "Retro del case, raffreddamento e GPU",
+      "tags": [],
+      "assets": [
+        "assets/58ce5c5dbe2e8061d137.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\np. 49\nFonte: p. 49. Parte posteriore del case, alimentatore, pannello I/O, scheda video e prese d’aria. Illustrazione IA mostrata integralmente e ingrandita.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "case_rear_slide"
+      }
+    },
+    "h265b8a00713bbd1c_3_5": {
+      "title": "Retro del case, le porte",
+      "tags": [],
+      "assets": [
+        "assets/9c9e97912c13470ca85e.webp"
+      ],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\np. 49\nFonte: p. 49. Parte posteriore del case, alimentatore, pannello I/O, scheda video e prese d’aria. Illustrazione IA mostrata integralmente e ingrandita.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "h265b8a00713bbd1c_3_5"
+      }
+    },
+    "p9": {
+      "title": "Dentro il PC",
+      "tags": [],
+      "assets": [],
+      "coverage": {
+        "reference": "Barbero, Vaschetto, Rolfo, Dal BIT all’INTELLIGENZA ARTIFICIALE, Unità 3, pp.42–49\npp. 42–49\nTransizione all’attività AccorTIC basata sui contenuti delle pp. 42–49. Le illustrazioni IA sono state utilizzate nelle slide precedenti come parte della spiegazione, non come elementi decorativi.\n Illustrazioni generate con IA dal docente, prendendo spunto dal manuale; dichiarazione docente del 2026-10-07.",
+        "sourcePresentationSlide": "p9"
+      }
+    }
+  },
+  "assets": [
+    {
+      "path": "assets/c2ed0252b22bb5c2b874.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1600,
+      "height": 900
+    },
+    {
+      "path": "assets/c553afb0b19eb605888e.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 599,
+      "height": 778
+    },
+    {
+      "path": "assets/74f093655cd7fd11a005.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/f530dfd03cbfe6652b2e.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 567,
+      "height": 576
+    },
+    {
+      "path": "assets/37f76003d0114a6de36f.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 707,
+      "height": 778
+    },
+    {
+      "path": "assets/9b01989b6a9aec0791bd.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1206,
+      "height": 1305
+    },
+    {
+      "path": "assets/6d564c675d3a2f37ba9c.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1600,
+      "height": 686
+    },
+    {
+      "path": "assets/fbf6293adcf6e4850c1f.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1600,
+      "height": 534
+    },
+    {
+      "path": "assets/44b278f36bbcd8f35576.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1205,
+      "height": 1305
+    },
+    {
+      "path": "assets/2ed1cdccc8067eca7f8a.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1448,
+      "height": 1086
+    },
+    {
+      "path": "assets/457e4c1198a227df6834.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 900,
+      "height": 1600
+    },
+    {
+      "path": "assets/58ce5c5dbe2e8061d137.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 900,
+      "height": 1600
+    },
+    {
+      "path": "assets/9c9e97912c13470ca85e.webp",
+      "mime": "image/webp",
+      "origin": "teacher-approved-for-publication",
+      "alt": "Illustrazione didattica",
+      "width": 1600,
+      "height": 534
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/2ed1cdccc8067eca7f8a.webp",
+      "bytes": 457534,
+      "sha256": "2ed1cdccc8067eca7f8a1af41acbf44ff986f2de4e4299400591890c54548a8d"
+    },
+    {
+      "path": "assets/37f76003d0114a6de36f.webp",
+      "bytes": 120898,
+      "sha256": "37f76003d0114a6de36fbc216a9c4df2224919116785fa5a2f04cd32a96a05e0"
+    },
+    {
+      "path": "assets/44b278f36bbcd8f35576.webp",
+      "bytes": 370044,
+      "sha256": "44b278f36bbcd8f355765a9fea79605fd286d0931a548aeb6ccbc8305fd3d923"
+    },
+    {
+      "path": "assets/457e4c1198a227df6834.webp",
+      "bytes": 136906,
+      "sha256": "457e4c1198a227df68344b1359be3666adf26d636bf7fcf81266d6450f7394fc"
+    },
+    {
+      "path": "assets/58ce5c5dbe2e8061d137.webp",
+      "bytes": 280408,
+      "sha256": "58ce5c5dbe2e8061d1373c7273262021e1dfe5f036dd42e97f917ec7efb04633"
+    },
+    {
+      "path": "assets/6d564c675d3a2f37ba9c.webp",
+      "bytes": 265494,
+      "sha256": "6d564c675d3a2f37ba9c2d2c29f8c08ad886e5694423b9290ab746c59f738cbb"
+    },
+    {
+      "path": "assets/74f093655cd7fd11a005.webp",
+      "bytes": 242416,
+      "sha256": "74f093655cd7fd11a0057168c0d4ae2e022b0f02ad7d6ef5f7ddfae21e1bd940"
+    },
+    {
+      "path": "assets/9b01989b6a9aec0791bd.webp",
+      "bytes": 358392,
+      "sha256": "9b01989b6a9aec0791bd0d15c3a7b90ebc5d2e369def6fdc35154752fcea7610"
+    },
+    {
+      "path": "assets/9c9e97912c13470ca85e.webp",
+      "bytes": 122556,
+      "sha256": "9c9e97912c13470ca85e0e87a14392317ee13e7fe4a6199304bfc29cd69ced5e"
+    },
+    {
+      "path": "assets/c2ed0252b22bb5c2b874.webp",
+      "bytes": 63114,
+      "sha256": "c2ed0252b22bb5c2b8740c32b62398278ea44513df52d8199f3db0052ae0f5e3"
+    },
+    {
+      "path": "assets/c553afb0b19eb605888e.webp",
+      "bytes": 50292,
+      "sha256": "c553afb0b19eb605888e2812bd3a065377a7280de91d33c42aeea1b7efaeef40"
+    },
+    {
+      "path": "assets/f530dfd03cbfe6652b2e.webp",
+      "bytes": 65800,
+      "sha256": "f530dfd03cbfe6652b2e091e0f9be3c8a4c90eedb3ca5a388a4461c7d697d5af"
+    },
+    {
+      "path": "assets/fbf6293adcf6e4850c1f.webp",
+      "bytes": 259800,
+      "sha256": "fbf6293adcf6e4850c1f457459b4039b27067fb799c087dd7204f7b7c01c1ec8"
+    },
+    {
+      "path": "index.html",
+      "bytes": 128994,
+      "sha256": "2a802b44dd0b0d0eb05a4f7a78fe75fd5c61dd63cfb264d8816f2a7bf12f0d3b"
+    },
+    {
+      "path": "player.js",
+      "bytes": 1367,
+      "sha256": "3404daf2ee86cdf24c7b69851f4fadf0fe9c6b0c977e57315a9e6f0651385528"
+    },
+    {
+      "path": "slides.css",
+      "bytes": 1520,
+      "sha256": "ac8dc8100020d7ae4bd0f24a9c38924e7fed47159a1782b8d5337e9c02ee113b"
+    }
+  ],
+  "packageHash": "5a4dbd7abfc928468753a8fe7fde240c85fec0e66c922fb98ad5bcfad96a1449",
+  "source": {
+    "presentationId": "https://docs.google.com/presentation/d/1ApwN2f99gIgJLi-Ouli0r1c0LYRw34boAQHNk-CeSzw/edit",
+    "revision": "2",
+    "project": {
+      "format": "accortic-grapes-v1",
+      "uri": "https://drive.google.com/file/d/1uATR2mo2anNdD80NDJbaQ0XZsKWZkzkU/view"
+    }
+  },
+  "approval": {
+    "publicDistribution": true,
+    "imageOrigin": "teacher-approved-for-publication",
+    "evidence": "Pubblicazione richiesta esplicitamente da docente autenticato, ruolo ricontrollato dal server.",
+    "materialId": "interno-pc",
+    "sourceSha256": "fac8c0c0d303aecb66fa11f4e205cdfdfdbaea0a38edc73fd4b575ae320f7971"
+  }
+}
