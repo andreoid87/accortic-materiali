@@ -31,7 +31,7 @@ export async function validateRelease(root){
  const m=JSON.parse(await readFile(join(root,'material.json'),'utf8'));
  assert(m.schemaVersion===1&&/^[a-z0-9-]+$/.test(m.materialId)&&Number.isInteger(m.version)&&m.version>0,'Invalid identity');
  assert(m.title&&m.width>0&&m.height>0&&m.width<=4000&&m.height<=4000,'Invalid canvas');
- assert(m.approval?.publicDistribution===true&&m.approval?.imageOrigin==='teacher-declared-ai-generated'&&m.approval.evidence,'Public distribution evidence required');
+ assert(m.approval?.publicDistribution===true&&['teacher-declared-ai-generated','teacher-approved-for-publication'].includes(m.approval?.imageOrigin)&&m.approval.evidence,'Public distribution evidence required');
  assert(m.source?.presentationId&&m.source.revision&&m.source.project?.uri?.startsWith('https://drive.google.com/'),'Editorial Drive project required');
  assert(Array.isArray(m.slideOrder)&&new Set(m.slideOrder).size===m.slideOrder.length&&m.slideOrder.length,'Stable slide IDs required');
  assert.deepEqual(Object.keys(m.slides).sort(),[...m.slideOrder].sort(),'Slide index mismatch');
