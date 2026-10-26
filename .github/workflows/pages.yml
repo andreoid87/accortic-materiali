@@ -38,7 +38,8 @@ jobs:
         with:
           path: .site
   deploy:
-    if: github.ref == 'refs/heads/dev' && (github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'publish(materials): '))
+    if: >-
+      github.ref == 'refs/heads/dev' && (github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'publish(materials): '))
     needs: validate
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -65,27 +66,32 @@ jobs:
         env:
           PAGES_URL: ${{ steps.deployment.outputs.page_url }}
       - name: Activate only after verified release publication
-        if: startsWith(github.event.head_commit.message, 'publish(materials): ')
+        if: >-
+          startsWith(github.event.head_commit.message, 'publish(materials): ')
         run: node scripts/activate-publication.mjs
         env:
           PUBLICATION_MESSAGE: ${{ github.event.head_commit.message }}
       - name: Build activated catalog without changing any release
-        if: startsWith(github.event.head_commit.message, 'publish(materials): ')
+        if: >-
+          startsWith(github.event.head_commit.message, 'publish(materials): ')
         run: npm run build
         env:
           BASE_SHA: ${{ github.sha }}
       - uses: actions/upload-pages-artifact@v3
-        if: startsWith(github.event.head_commit.message, 'publish(materials): ')
+        if: >-
+          startsWith(github.event.head_commit.message, 'publish(materials): ')
         with:
           name: github-pages-activated
           path: .site
       - uses: actions/deploy-pages@v4
-        if: startsWith(github.event.head_commit.message, 'publish(materials): ')
+        if: >-
+          startsWith(github.event.head_commit.message, 'publish(materials): ')
         id: activated
         with:
           artifact_name: github-pages-activated
       - name: Verify active catalog and preserved versions
-        if: startsWith(github.event.head_commit.message, 'publish(materials): ')
+        if: >-
+          startsWith(github.event.head_commit.message, 'publish(materials): ')
         run: node scripts/smoke.mjs "$PAGES_URL"
         env:
           PAGES_URL: ${{ steps.activated.outputs.page_url }}
