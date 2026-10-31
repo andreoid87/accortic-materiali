@@ -9,6 +9,12 @@ test('structured sources require exact bound hash, preserving existing Drive sou
     validateSource(m);m.approval.sourceSha256='b'.repeat(64);assert.throws(()=>validateSource(m),/hash/);
     m.source.project={format:'unexpected',uri:'https://evil.invalid/'};assert.throws(()=>validateSource(m),/Drive/);
 });
+test('private native GrapesJS sources bind the exact hash without changing legacy Drive provenance',()=>{
+ const m={source:{presentationId:'native',revision:'2',project:{format:'accortic-grapes-v1',uri:'urn:accortic:slides:sha256:'+'c'.repeat(64)}},approval:{sourceSha256:'c'.repeat(64)}};
+ validateSource(m);m.approval.sourceSha256='d'.repeat(64);assert.throws(()=>validateSource(m),/hash/);
+ m.source.project.uri='https://drive.google.com/file/d/original/view';validateSource(m);
+ m.source.project={format:'unrecognized',uri:'urn:accortic:slides:sha256:'+'d'.repeat(64)};assert.throws(()=>validateSource(m),/Drive/);
+});
 test('image signature, MIME, extension and content hash must agree; no SVG/HTML',()=>
 {
     const b=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l1sAAAAASUVORK5CYII=','base64');

@@ -54,7 +54,8 @@ export function validateCatalog(c){assert(c.schemaVersion===1&&Array.isArray(c.r
 export function validateSource(m){
  assert(m.source?.presentationId&&m.source.revision,'Editorial source required');
  const p=m.source.project;
- if(p?.format==='accortic-slide-blocks-v1'){
+ // private-grapes-source-v1: one native project, shared by MCP and the private editor.
+ if(p?.format==='accortic-slide-blocks-v1'||(p?.format==='accortic-grapes-v1'&&p.uri?.startsWith('urn:accortic:slides:sha256:'))){
   assert(/^[a-f0-9]{64}$/.test(m.approval?.sourceSha256??'')&&p.uri==='urn:accortic:slides:sha256:'+m.approval.sourceSha256,'Structured editorial source hash mismatch');
  }else assert(p?.uri?.startsWith('https://drive.google.com/'),'Editorial Drive project required');
 }
