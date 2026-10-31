@@ -1,3 +1,7 @@
+## Nuove bozze dal connettore privato — 2026-10-31
+
+Richiesta docente: nuove presentazioni possono nascere nel connettore separato, con sorgenti privati sul suo disco persistente e runtime approvato in questo repository. Eccezione al precedente vincolo Drive solo per queste nuove bozze. Preservare fonti Drive/GrapesJS e release storiche; nessuna migrazione automatica. Contratto e limiti in CONNECTOR.md. Mai aggiungere credenziali, bozze private, URL capability o dati studenti al repository pubblico.
+
 # AccorTIC materiali
 
 Runtime approvato e versionato soltanto; Drive condiviso AccorTIC/TIC resta fonte editoriale. Nessun dato studenti, token, risposte riservate o sorgente editoriale in questo repo pubblico.

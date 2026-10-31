@@ -32,7 +32,7 @@ export async function validateRelease(root){
  assert(m.schemaVersion===1&&/^[a-z0-9-]+$/.test(m.materialId)&&Number.isInteger(m.version)&&m.version>0,'Invalid identity');
  assert(m.title&&m.width>0&&m.height>0&&m.width<=4000&&m.height<=4000,'Invalid canvas');
  assert(m.approval?.publicDistribution===true&&['teacher-declared-ai-generated','teacher-approved-for-publication'].includes(m.approval?.imageOrigin)&&m.approval.evidence,'Public distribution evidence required');
- assert(m.source?.presentationId&&m.source.revision&&m.source.project?.uri?.startsWith('https://drive.google.com/'),'Editorial Drive project required');
+ validateSource(m);
  assert(Array.isArray(m.slideOrder)&&new Set(m.slideOrder).size===m.slideOrder.length&&m.slideOrder.length,'Stable slide IDs required');
  assert.deepEqual(Object.keys(m.slides).sort(),[...m.slideOrder].sort(),'Slide index mismatch');
  for(const id of m.slideOrder){assert(/^[a-zA-Z0-9_-]+$/.test(id),'Unsafe slide ID');const s=m.slides[id];assert(s.title&&Array.isArray(s.tags)&&s.coverage?.reference,'Missing slide metadata');for(const t of s.tags)assert(t.id&&t.weight>0,'Invalid weighted tag');}
@@ -40,7 +40,7 @@ export async function validateRelease(root){
  assert.deepEqual(await filesAt(root),[...paths,'material.json'].sort(),'Extra/untracked package files');
  let bytes=0;for(const file of m.files){assert(safePath(file.path),'Unsafe file path');const data=await readFile(join(root,file.path));assert(data.length===file.bytes&&digest(data)===file.sha256,'File integrity '+file.path);bytes+=data.length;}
  assert(digest(canonical(m.files))===m.packageHash,'Package hash mismatch');
- for(const asset of m.assets){assert(asset.mime==='image/webp'&&/^assets\/[a-f0-9]{20}\.webp$/.test(asset.path),'Invalid asset');assert(paths.includes(asset.path),'Unlisted asset');const b=await readFile(join(root,asset.path));assert(b.subarray(0,4).toString()==='RIFF'&&b.subarray(8,12).toString()==='WEBP','Invalid WebP signature');assert(digest(b).startsWith(asset.path.split('/')[1].slice(0,20)),'Asset content hash mismatch');}
+ for(const asset of m.assets){assert(paths.includes(asset.path),'Unlisted asset');validateAsset(asset,await readFile(join(root,asset.path)));}
  for(const id of m.slideOrder)for(const path of m.slides[id].assets)assert(m.assets.some(a=>a.path===path),'Unlisted slide asset');
  const trusted=JSON.parse(await readFile(new URL('../runtime/approved.json',import.meta.url),'utf8'));
  for(const path of ['player.js','slides.css'])assert(trusted[path]?.includes(digest(await readFile(join(root,path)))),'Untrusted runtime '+path);
@@ -48,3 +48,19 @@ export async function validateRelease(root){
  return {materialId:m.materialId,version:m.version,slides:m.slideOrder.length,assets:m.assets.length,bytes,htmlBytes:m.files.find(f=>f.path==='index.html').bytes};
 }
 export function validateCatalog(c){assert(c.schemaVersion===1&&Array.isArray(c.releases)&&c.current&&typeof c.current==='object','Invalid catalog');assert(new Set(c.releases).size===c.releases.length,'Duplicate release');for(const p of c.releases)assert(/^[a-z0-9-]+\/v[1-9][0-9]*$/.test(p),'Invalid release path');for(const [id,path]of Object.entries(c.current))assert(path.startsWith(id+'/')&&c.releases.includes(path),'Current points outside releases');}
+
+
+// Additive provenance for the isolated chat editor; existing Drive packages remain valid.
+export function validateSource(m){
+ assert(m.source?.presentationId&&m.source.revision,'Editorial source required');
+ const p=m.source.project;
+ if(p?.format==='accortic-slide-blocks-v1'){
+  assert(/^[a-f0-9]{64}$/.test(m.approval?.sourceSha256??'')&&p.uri==='urn:accortic:slides:sha256:'+m.approval.sourceSha256,'Structured editorial source hash mismatch');
+ }else assert(p?.uri?.startsWith('https://drive.google.com/'),'Editorial Drive project required');
+}
+export function validateAsset(asset,b){
+ const extension={'image/webp':'webp','image/png':'png','image/jpeg':'jpg'}[asset.mime];
+ assert(extension&&new RegExp('^assets/[a-f0-9]{20}\\.'+extension+'$').test(asset.path),'Invalid asset');
+ const valid=extension==='webp'?b.subarray(0,4).toString()==='RIFF'&&b.subarray(8,12).toString()==='WEBP':extension==='png'?b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])):b[0]===255&&b[1]===216&&b[2]===255;
+ assert(valid,'Invalid image signature');assert(digest(b).startsWith(asset.path.split('/')[1].slice(0,20)),'Asset content hash mismatch');
+}
