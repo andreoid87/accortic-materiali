@@ -1,0 +1,6 @@
+// Trusted runtime, never replaced by editorial HTML or an editor export.
+const width=Number(document.body.dataset.slideWidth),height=Number(document.body.dataset.slideHeight);
+const selection=document.getElementById('selection');let zoom=false;
+function resize(){document.querySelectorAll('.viewport').forEach(v=>{if(!v.clientWidth)return;const c=v.querySelector('.canvas'),surface=v.querySelector('.surface'),scale=zoom?1:Math.min(1,v.clientWidth/width);c.style.transform='scale('+scale+')';surface.style.width=(width*scale)+'px';surface.style.height=(height*scale)+'px';v.style.height=(zoom?Math.min(height,innerHeight*.8):height*scale)+'px';if(!zoom){v.scrollLeft=0;v.scrollTop=0;}});}
+function show(){let id='';try{id=decodeURIComponent(location.hash.slice(1));}catch{}const found=[...selection.options].some(o=>o.value===id);selection.value=found?id:'';document.querySelectorAll('.slide').forEach(s=>s.hidden=found&&id!==''&&s.id!==id);resize();}
+selection.addEventListener('change',()=>{location.hash=selection.value;});document.getElementById('zoom').addEventListener('click',()=>{zoom=!zoom;document.getElementById('zoom').textContent=zoom?'Adatta allo schermo':'Ingrandisci';resize();});addEventListener('hashchange',show);addEventListener('resize',resize);if(new URLSearchParams(location.search).has('single'))document.body.classList.add('single');show();
