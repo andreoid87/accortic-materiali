@@ -62,7 +62,10 @@ jobs:
           node-version: '22'
       - run: npm ci
       - name: Verify deployed manifests and every asset
-        run: node scripts/smoke.mjs "$PAGES_URL"
+        # The expected derived reader is built locally; releases remain immutable.
+        run: |
+          BASE_SHA=HEAD npm run build
+          node scripts/smoke.mjs "$PAGES_URL"
         env:
           PAGES_URL: ${{ steps.deployment.outputs.page_url }}
       - name: Activate only after verified release publication

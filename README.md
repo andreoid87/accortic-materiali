@@ -1,5 +1,11 @@
 # Materiali AccorTIC
 
+## Lettore autonomo — 2026-11-06
+
+La build aggiunge `/reader/v1/<materiale>/vN/#slideId`: stesso contenuto approvato,nel documento principale,con Precedente/Successiva,contatore,tastiera,zoom e vero fullscreen dove supportato. `?help=1#slideId` aggiunge il comando di ritorno alla domanda;il lettore non riceve identità,risposte o token e non accede alla scheda originaria. Se il browser non consente la chiusura,indica di chiudere la scheda manualmente.
+
+Le viste sono generate da `releases` verificati senza modificare alcun file o manifesto originario e senza cambiare `catalog.current`. Gli asset originali sono riusati,non duplicati. Le vecchie URL restano identiche. Il lettore non è una seconda fonte editoriale:è tooling di presentazione del runtime già approvato. Smoke online verifica anche hash di tutte le nuove viste e risorse. Future revisioni del lettore possono usare `/reader/v2/`,conservando i link v1.
+
 Un repository per i pacchetti HTML approvati. Sorgenti/editor e versioni di lavoro nel Drive condiviso AccorTIC/TIC; applicazione e dati studenti in andreoid87/accortic/Firebase. Nessuna pubblicazione dell'app o cambio all'autonomia da questo repository.
 
 ## Uso e contratto
