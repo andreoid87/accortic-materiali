@@ -2,7 +2,7 @@
 
 ## URL permanenti delle slide — 2026-11-08
 
-`/slides/<materialId>/#<slideId>` mostra la pubblicazione attiva in `catalog.current`, con navigazione, responsive e fullscreen. Gli ID persistenti rendono i link indipendenti dall'ordine e dal numero di versione. Nuove bozze e release non ancora attivate non sostituiscono il contenuto corrente. Una slide rimossa o inesistente mostra un messaggio esplicito e il menu delle slide disponibili; una presentazione inesistente restituisce 404. Nessuna release storica viene modificata.
+`/slides/<materialId>/#<slideId>` mostra la pubblicazione attiva in `catalog.current`, con navigazione, responsive e fullscreen. Gli ID persistenti rendono i link indipendenti dall'ordine e dal numero di versione. Nuove bozze e release non ancora attivate non sostituiscono il contenuto corrente. Una slide rimossa o inesistente mostra un messaggio esplicito e il menu delle slide disponibili; una presentazione inesistente restituisce 404. Nessuna release storica viene modificata. Anche una pagina di ingresso rimasta in cache legge il catalogo attivo con una richiesta nuova e carica il lettore pubblico corrispondente, mantenendo invariato l’indirizzo. Se il catalogo non è raggiungibile, segnala l’errore senza mostrare una versione potenzialmente superata.
 
 Build e smoke verificano anche tutte le viste permanenti. `npm test` include un collaudo Chromium con due pubblicazioni sintetiche, riordino, eliminazione, versione in attesa, apertura diretta, mobile/desktop e fullscreen. Prima dei test: `npx playwright install --with-deps chromium` (in locale Windows viene usato Edge).
 

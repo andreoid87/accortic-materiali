@@ -19,9 +19,9 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
    await writeFile(join(path,'slides.css'),'header{display:flex;flex-wrap:wrap} .viewport{width:100%;overflow:auto}.canvas{width:960px;height:540px} section[hidden]{display:none}');
   }
   const catalog={releases:['deck/v1','deck/v2'],current:{deck:'deck/v1'}};
-  await buildReaders(catalog,out,root);
+  await buildReaders(catalog,out,root);await writeFile(join(out,'catalog.json'),JSON.stringify(catalog));
   const first=await readFile(join(out,'slides/deck/index.html'),'utf8');
-  assert(first.includes('alpha 1'));assert(!first.includes('alpha 2'),'Queued v2 leaked');
+  assert(!first.includes('alpha 2'),'No publication content is embedded in cacheable entry HTML');
   const historical=await readFile(join(out,'reader/v1/deck/v1/index.html'));
   const source=await readFile(join(root,'releases/deck/v1/index.html'));
   server=createServer(async(req,res)=>{
@@ -40,7 +40,8 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
   const link=base+'slides/deck/#alpha';
   await page.goto(link);await expect(page.locator('section.slide:visible')).toHaveText('alpha 1');
   // Activate the second immutable version, with a different order and one removal.
-  catalog.current.deck='deck/v2';await buildReaders(catalog,out,root);await page.reload();
+  catalog.current.deck='deck/v2';await buildReaders(catalog,out,root);await writeFile(join(out,'catalog.json'),JSON.stringify(catalog));
+  assert.equal(await readFile(join(out,'slides/deck/index.html'),'utf8'),first,'Cached entry must resolve the new publication too');await page.reload();
   assert.equal(page.url(),link);await expect(page.locator('section.slide:visible')).toHaveText('alpha 2');
   await expect(page.locator('#reader-position')).toHaveText('2 / 2');
   await page.getByRole('button',{name:'Precedente'}).click();await expect(page).toHaveURL(/#beta$/);
@@ -61,6 +62,12 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
   assert.deepEqual(await readFile(join(out,'reader/v1/deck/v1/index.html')),historical);
   assert.deepEqual(await readFile(join(root,'releases/deck/v1/index.html')),source);
   assert.equal((await page.goto(base+'slides/nonexistent/#alpha')).status(),404);
+  await page.route('**/catalog.json?*',route=>route.fulfill({status:503,body:'Unavailable'}));
+  await page.goto(link);await expect(page.locator('#permalink-status')).toContainText('non disponibile');
+  await expect(page.locator('section.slide')).toHaveCount(0);await page.unroute('**/catalog.json?*');
+  await writeFile(join(out,'catalog.json'),JSON.stringify({...catalog,current:{}}));
+  await page.goto(link);await expect(page.locator('#permalink-status')).toContainText('non disponibile');
+  await expect(page.locator('section.slide')).toHaveCount(0);
   assert.deepEqual(errors,[]);
  }finally{await browser?.close();if(server)await new Promise(r=>server.close(r));assert(root.startsWith(resolve(tmpdir())+sep));await rm(root,{recursive:true,force:true});}
 });
