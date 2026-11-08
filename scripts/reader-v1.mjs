@@ -10,7 +10,7 @@ const controls='<nav class="reader-navigation" aria-label="Navigazione slide"><b
 const set=(node,name,value)=>{node.attrs??=[];const old=node.attrs.find(a=>a.name===name);if(old)old.value=value;else node.attrs.push({name,value});};
 
 /** Build-time view of approved content. Source releases are never rewritten. */
-export function readerHtml(html,release){
+export function readerHtml(html,release,{permalink=false}={}){
  assert(/^[a-z0-9][a-z0-9-]{0,79}\/v[1-9][0-9]{0,5}$/.test(release),'Invalid release');
  const document=parse(html);let head,header,body,main,players=0;
  walk(document,node=>{
@@ -25,6 +25,7 @@ export function readerHtml(html,release){
  });
  assert(head&&header&&body&&main&&players===1,'Unsupported approved reader structure');
  set(body,'class','standalone-reader');set(main,'dir','ltr');
+ if(permalink)set(body,'data-slide-permalink','true');
  set(header,'class','reader-toolbar');
  for(const node of parseFragment(controls).childNodes){node.parentNode=header;header.childNodes.push(node);}
  for(const node of parseFragment('<meta name="referrer" content="no-referrer"><link rel="stylesheet" href="'+siteRoot+READER_PATH+'/reader.css">').childNodes){node.parentNode=head;head.childNodes.push(node);}
@@ -36,12 +37,21 @@ export async function buildReaders(catalog,out,root=process.cwd()){
  await copyFile(join(root,'runtime/reader-v1.js'),join(readerRoot,'player.js'));
  await copyFile(join(root,'runtime/reader-v1.css'),join(readerRoot,'reader.css'));
  const resources=await Promise.all(['player.js','reader.css'].map(async path=>({path:READER_PATH+'/'+path,sha256:digest(await readFile(join(readerRoot,path)))})));
- const index={version:1,resources,views:[]};
+ const index={version:1,resources,views:[],permalinks:[]};
  for(const release of catalog.releases){
   const source=await readFile(join(root,'releases',release,'index.html'),'utf8');
   const output=readerHtml(source,release),target=join(readerRoot,release);
   await mkdir(target,{recursive:true});await writeFile(join(target,'index.html'),output);
   index.views.push({release,path:READER_PATH+'/'+release+'/',sha256:digest(Buffer.from(output))});
+ }
+ // Only the activated, published reference is eligible. Never infer latest from
+ // release order: queued publications must not replace the current presentation.
+ for(const [id,release] of Object.entries(catalog.current)){
+  assert(catalog.releases.includes(release)&&release.startsWith(id+'/v'),'Invalid current release');
+  const source=await readFile(join(root,'releases',release,'index.html'),'utf8');
+  const output=readerHtml(source,release,{permalink:true}),path='slides/'+id+'/';
+  await mkdir(join(out,path),{recursive:true});await writeFile(join(out,path,'index.html'),output);
+  index.permalinks.push({release,path,sha256:digest(Buffer.from(output))});
  }
  await writeFile(join(readerRoot,'index.json'),JSON.stringify(index));
 }

@@ -1,5 +1,11 @@
 # Materiali AccorTIC
 
+## URL permanenti delle slide — 2026-11-08
+
+`/slides/<materialId>/#<slideId>` mostra la pubblicazione attiva in `catalog.current`, con navigazione, responsive e fullscreen. Gli ID persistenti rendono i link indipendenti dall'ordine e dal numero di versione. Nuove bozze e release non ancora attivate non sostituiscono il contenuto corrente. Una slide rimossa o inesistente mostra un messaggio esplicito e il menu delle slide disponibili; una presentazione inesistente restituisce 404. Nessuna release storica viene modificata.
+
+Build e smoke verificano anche tutte le viste permanenti. `npm test` include un collaudo Chromium con due pubblicazioni sintetiche, riordino, eliminazione, versione in attesa, apertura diretta, mobile/desktop e fullscreen. Prima dei test: `npx playwright install --with-deps chromium` (in locale Windows viene usato Edge).
+
 ## Lettore autonomo — 2026-11-06
 
 La build aggiunge `/reader/v1/<materiale>/vN/#slideId`: stesso contenuto approvato,nel documento principale,con Precedente/Successiva,contatore,tastiera,zoom e vero fullscreen dove supportato. `?help=1#slideId` aggiunge il comando di ritorno alla domanda;il lettore non riceve identità,risposte o token e non accede alla scheda originaria. Se il browser non consente la chiusura,indica di chiudere la scheda manualmente.

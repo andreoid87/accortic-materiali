@@ -12,7 +12,8 @@ for(const release of c.releases){const local=await readFile(join('releases',rele
 const readerIndex=await readFile('.site/reader/v1/index.json');
 assert(readerIndex.equals(Buffer.from(await(await get(new URL('reader/v1/index.json',base))).arrayBuffer())),'Reader index mismatch');
 const readers=JSON.parse(readerIndex);assert(readers.views.length===c.releases.length,'Missing reader views');
-for(const file of [...readers.resources,...readers.views.map(view=>({path:view.path+'index.html',sha256:view.sha256}))]){
+assert.equal(readers.permalinks.length,Object.keys(c.current).length,'Missing permanent views');
+for(const file of [...readers.resources,...[...readers.views,...readers.permalinks].map(view=>({path:view.path+'index.html',sha256:view.sha256}))]){
  const body=Buffer.from(await(await get(new URL(file.path,base))).arrayBuffer());assert.equal(digest(body),file.sha256,'Reader hash mismatch '+file.path);
 }
 await verifyCatalog(base,c);console.log(JSON.stringify({releases:report,standaloneReaderViews:readers.views.length},null,2));

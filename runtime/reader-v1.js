@@ -7,11 +7,12 @@ const selection=document.getElementById('selection'),zoomButton=document.getElem
 const previous=document.getElementById('reader-previous'),next=document.getElementById('reader-next');
 const position=document.getElementById('reader-position'),fullscreen=document.getElementById('reader-fullscreen');
 const status=document.getElementById('reader-status'),returnButton=document.getElementById('reader-return');
-let index=0,zoom=false;
+let index=0,zoom=false,missing=false;
 document.body.classList.remove('single');
 const options=[...selection.options];selection.replaceChildren(...slides.map(slide=>options.find(option=>option.value===slide.id)));
 
 function resize(){
+ if(missing)return;
  const slide=slides[index],viewport=slide.querySelector('.viewport'),surface=slide.querySelector('.surface'),canvas=slide.querySelector('.canvas');
  if(!viewport||!surface||!canvas)return;
  const availableHeight=Math.max(120,innerHeight-document.querySelector('header').offsetHeight-32);
@@ -22,8 +23,16 @@ function resize(){
  if(!zoom){viewport.scrollLeft=0;viewport.scrollTop=0;}
 }
 function show(){
- let id='';try{id=decodeURIComponent(location.hash.slice(1));}catch{}
+ let id='',invalid=false;try{id=decodeURIComponent(location.hash.slice(1));}catch{invalid=true;}
  const found=slides.findIndex(slide=>slide.id===id);index=found<0?0:found;
+ missing=document.body.dataset.slidePermalink==='true'&&(invalid||id!==''&&found<0);
+ if(missing){
+  allSlides.forEach(slide=>slide.hidden=true);selection.value='';
+  previous.disabled=true;next.disabled=true;position.textContent='';
+  status.textContent='Slide non disponibile: è stata rimossa dalla versione pubblicata oppure il suo ID non esiste. Scegli una slide dal menu.';
+  return;
+ }
+ status.textContent='';
  allSlides.forEach(slide=>slide.hidden=slide!==slides[index]);
  selection.value=slides[index].id;
  previous.disabled=index===0;next.disabled=index===slides.length-1;
