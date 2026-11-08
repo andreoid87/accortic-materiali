@@ -21,7 +21,7 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
   const catalog={releases:['deck/v1','deck/v2'],current:{deck:'deck/v1'}};
   await buildReaders(catalog,out,root);await writeFile(join(out,'catalog.json'),JSON.stringify(catalog));
   const first=await readFile(join(out,'slides/deck/index.html'),'utf8');
-  assert(!first.includes('alpha 2'),'No publication content is embedded in cacheable entry HTML');
+  assert(first.includes('alpha 1'),'Published text must be in the initial HTML for native language detection');assert(!first.includes('alpha 2'),'Queued publication leaked');
   const historical=await readFile(join(out,'reader/v1/deck/v1/index.html'));
   const source=await readFile(join(root,'releases/deck/v1/index.html'));
   server=createServer(async(req,res)=>{
@@ -36,14 +36,21 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
   await new Promise(r=>server.listen(0,'127.0.0.1',r));
   const base=`http://127.0.0.1:${server.address().port}/accortic-materiali/`;
   browser=await chromium.launch({channel:process.env.CI?undefined:'msedge'});
-  const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage();
+  await page.addInitScript(()=>{
+   window.originalPermalinkDocument=document;
+   Document.prototype.open=Document.prototype.write=()=>{throw Error('Browser document must be preserved for native Translate');};
+  });
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
   const link=base+'slides/deck/#alpha';
   await page.goto(link);await expect(page.locator('section.slide:visible')).toHaveText('alpha 1');
   // Activate the second immutable version, with a different order and one removal.
   catalog.current.deck='deck/v2';await buildReaders(catalog,out,root);await writeFile(join(out,'catalog.json'),JSON.stringify(catalog));
-  assert.equal(await readFile(join(out,'slides/deck/index.html'),'utf8'),first,'Cached entry must resolve the new publication too');await page.reload();
+  assert((await readFile(join(out,'slides/deck/index.html'),'utf8')).includes('alpha 2'));
+  // Deliberately serve a cached v1 entry while the catalog points at v2.
+  await page.route(base+'slides/deck/',route=>route.fulfill({contentType:'text/html',body:first}));await page.reload();
   assert.equal(page.url(),link);await expect(page.locator('section.slide:visible')).toHaveText('alpha 2');
-  await expect(page.locator('#reader-position')).toHaveText('2 / 2');
+  await expect(page.locator('#reader-position')).toHaveText('2 / 2');assert(await page.evaluate(()=>document===window.originalPermalinkDocument));
   await page.getByRole('button',{name:'Precedente'}).click();await expect(page).toHaveURL(/#beta$/);
   await expect(page.locator('section.slide:visible')).toHaveText('beta 2');
   for(const id of ['removed','unknown','%E0%A4%A']){
@@ -63,11 +70,17 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
   assert.deepEqual(await readFile(join(root,'releases/deck/v1/index.html')),source);
   assert.equal((await page.goto(base+'slides/nonexistent/#alpha')).status(),404);
   await page.route('**/catalog.json?*',route=>route.fulfill({status:503,body:'Unavailable'}));
-  await page.goto(link);await expect(page.locator('#permalink-status')).toContainText('non disponibile');
-  await expect(page.locator('section.slide')).toHaveCount(0);await page.unroute('**/catalog.json?*');
+  await page.goto(link);await expect(page.locator('#reader-status')).toContainText('non disponibile');
+  await expect(page.locator('section.slide:visible')).toHaveCount(0);await page.unroute('**/catalog.json?*');
   await writeFile(join(out,'catalog.json'),JSON.stringify({...catalog,current:{}}));
-  await page.goto(link);await expect(page.locator('#permalink-status')).toContainText('non disponibile');
-  await expect(page.locator('section.slide')).toHaveCount(0);
+  await page.reload();await expect(page.locator('#reader-status')).toContainText('non disponibile');
+  await expect(page.locator('section.slide:visible')).toHaveCount(0);
+  await writeFile(join(out,'catalog.json'),JSON.stringify(catalog));
+  await page.unroute(base+'slides/deck/');
+  const legacy='<!doctype html><html lang="it"><head><meta charset="utf-8"></head><body data-material-id="deck"><main id="permalink-status">Caricamento</main><script src="/accortic-materiali/slides/permalink.js"></script></body></html>';
+  await page.route(base+'slides/deck/',route=>route.fulfill({contentType:'text/html',body:legacy}));
+  await page.reload();await expect(page.locator('section.slide:visible')).toHaveText('alpha 2');
+  assert(await page.evaluate(()=>document===window.originalPermalinkDocument));
   assert.deepEqual(errors,[]);
  }finally{await browser?.close();if(server)await new Promise(r=>server.close(r));assert(root.startsWith(resolve(tmpdir())+sep));await rm(root,{recursive:true,force:true});}
 });

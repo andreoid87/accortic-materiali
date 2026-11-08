@@ -6,6 +6,12 @@
 
 Build e smoke verificano anche tutte le viste permanenti. `npm test` include un collaudo Chromium con due pubblicazioni sintetiche, riordino, eliminazione, versione in attesa, apertura diretta, mobile/desktop e fullscreen. Prima dei test: `npx playwright install --with-deps chromium` (in locale Windows viene usato Edge).
 
+### Compatibilità con Traduci di Chrome — correzione 2026-11-08
+
+Il docente ha confermato che Traduci è disponibile nel lettore diretto ma disabilitato nel permalink. Rimossa la riscrittura del documento con `document.open/write`: il permalink serve direttamente l’HTML della pubblicazione attiva, con i testi delle slide già presenti nella risposta iniziale. Il controllo del catalogo rimane obbligatorio; se l’HTML in cache è superato, aggiorna i nodi della stessa pagina prima di avviare il lettore. URL, hash, navigazione e release storiche sono conservati; errori di rete non mostrano la vecchia pubblicazione.
+
+Regressioni automatiche: vietare open/write durante il test browser, verificare testo nell’HTML iniziale, conservazione del documento, pagina precedente in cache, compatibilità con il vecchio ingresso minimale e tutti gli scenari permalink già presenti. Non simulare il traduttore cambiando artificialmente i testi. La prova del vero menu Chrome è stata bloccata dal controllo automatico perché non riesce a determinare l’URL della finestra Windows; non è dichiarata superata. Nessun input Windows dopo il rifiuto. Serve conferma docente sul menu nativo dopo aggiornamento della pagina.
+
 ## Lettore autonomo — 2026-11-06
 
 La build aggiunge `/reader/v1/<materiale>/vN/#slideId`: stesso contenuto approvato,nel documento principale,con Precedente/Successiva,contatore,tastiera,zoom e vero fullscreen dove supportato. `?help=1#slideId` aggiunge il comando di ritorno alla domanda;il lettore non riceve identità,risposte o token e non accede alla scheda originaria. Se il browser non consente la chiusura,indica di chiudere la scheda manualmente.

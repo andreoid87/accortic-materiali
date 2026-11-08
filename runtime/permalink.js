@@ -1,7 +1,8 @@
-// Resolve the active publication on every opening, including a cached entry page.
-// Only public, validated release views are loaded; editorial drafts are never read.
+// Resolve the active publication without replacing the browser document.
+// Initial HTML already contains the approved slide text for native translation.
 (async()=>{
- const id=document.body.dataset.materialId,status=document.getElementById('permalink-status');
+ const id=document.body.dataset.materialId;
+ const status=()=>document.getElementById('reader-status')??document.getElementById('permalink-status');
  try{
   const base='/accortic-materiali/',fresh=crypto.randomUUID();
   const get=async path=>{
@@ -11,16 +12,27 @@
   };
   const catalog=await(await get('catalog.json')).json(),ref=catalog.current?.[id];
   if(!/^[a-z0-9][a-z0-9-]{0,79}\/v[1-9][0-9]{0,5}$/.test(ref)||!ref.startsWith(id+'/v')||!catalog.releases?.includes(ref))throw Error('Presentazione non pubblicata');
-  const html=await(await get('reader/v1/'+ref+'/index.html')).text();
-  const doc=new DOMParser().parseFromString(html,'text/html'),scripts=[...doc.querySelectorAll('script')];
-  if(!doc.querySelector('body.standalone-reader')||scripts.length!==1||scripts[0].getAttribute('src')!==base+'reader/v1/player.js')throw Error('Lettore non disponibile');
-  doc.body.dataset.slidePermalink='true';
-  for(const slide of doc.querySelectorAll('section.slide'))slide.hidden=true;
-  // Revalidate the shared reader too: an older cached player may not support
-  // removed-slide handling. The permanent address, hash and query stay intact.
-  scripts[0].setAttribute('src',base+'reader/v1/player.js?permalink='+fresh);
-  document.open();document.write('<!doctype html>'+doc.documentElement.outerHTML);document.close();
+  if(document.body.dataset.publishedRef!==ref){
+   const html=await(await get('reader/v1/'+ref+'/index.html')).text();
+   const doc=new DOMParser().parseFromString(html,'text/html'),scripts=[...doc.querySelectorAll('script')];
+   if(!doc.querySelector('body.standalone-reader')||scripts.length!==1||scripts[0].getAttribute('src')!==base+'reader/v1/player.js')throw Error('Lettore non disponibile');
+   scripts[0].remove();
+   for(const slide of doc.querySelectorAll('section.slide'))slide.hidden=true;
+   // Update a stale publication in the existing document. document.open/write
+   // can reset Chrome's document lifecycle and disable native Translate.
+   document.head.replaceChildren(...[...doc.head.childNodes].map(node=>document.importNode(node,true)));
+   for(const attr of [...document.body.attributes])document.body.removeAttribute(attr.name);
+   for(const attr of doc.body.attributes)document.body.setAttribute(attr.name,attr.value);
+   document.body.replaceChildren(...[...doc.body.childNodes].map(node=>document.importNode(node,true)));
+  }
+  document.body.dataset.materialId=id;
+  document.body.dataset.publishedRef=ref;
+  document.body.dataset.slidePermalink='true';
+  const player=document.createElement('script');player.src=base+'reader/v1/player.js?permalink='+fresh;
+  player.onerror=()=>{status().textContent='Lettore non disponibile. Riprova più tardi.';};
+  document.body.append(player);
  }catch{
-  status.textContent='Presentazione non disponibile o non ancora pubblicata. Riprova più tardi.';
+  for(const slide of document.querySelectorAll('section.slide'))slide.hidden=true;
+  status().textContent='Presentazione non disponibile o non ancora pubblicata. Riprova più tardi.';
  }
 })();
