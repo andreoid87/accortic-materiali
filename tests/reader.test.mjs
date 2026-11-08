@@ -24,3 +24,17 @@ test('unrecognized reader resources or conflicting IDs fail before publication',
  assert.throws(()=>readerHtml(html.replace('player.js','evil.js'),'interno-pc/v4'));
  assert.throws(()=>readerHtml(html.replace('<main>','<main id="reader-next">'),'interno-pc/v4'));
 });
+
+
+test('permanent views permit only same-origin catalog reads and preserve every other release policy',async()=>{
+ const catalog=JSON.parse(await readFile('catalog.json','utf8'));
+ const policy=html=>{let value;walk(parse(html),node=>{if(node.tagName==='meta'&&attr(node,'http-equiv')?.toLowerCase()==='content-security-policy')value=attr(node,'content');});return value;};
+ for(const release of catalog.releases){
+  const source=await readFile('releases/'+release+'/index.html','utf8'),original=policy(source);
+  assert(original.includes("connect-src 'none'"));
+  assert.equal(policy(readerHtml(source,release)),original,'Historical connection policy changed');
+  const permanent=readerHtml(source,release,{id:release.split('/')[0],resolverHash:'a'.repeat(64)});
+  assert.equal(policy(permanent),original.replace("connect-src 'none'","connect-src 'self'"));
+  assert.equal(await readFile('releases/'+release+'/index.html','utf8'),source);
+ }
+});

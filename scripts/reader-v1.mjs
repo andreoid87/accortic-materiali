@@ -19,6 +19,10 @@ export function readerHtml(html,release,permalink){
   if(node.tagName==='main')main=node;
   if(node.tagName==='header')header??=node;
   if(attr(node,'id')?.startsWith('reader-'))throw Error('Reader control ID collision');
+  if(permalink&&node.tagName==='meta'&&attr(node,'http-equiv')?.toLowerCase()==='content-security-policy'){
+   const policy=attr(node,'content');assert(/(?:^|;)\s*connect-src\s+'none'\s*(?:;|$)/.test(policy),'Unexpected source connection policy');
+   set(node,'content',policy.replace(/(^|;)\s*connect-src\s+'none'/,"$1 connect-src 'self'"));
+  }
   if(node.tagName==='script'){assert(attr(node,'src')==='player.js','Unexpected script');set(node,'src',permalink?siteRoot+'slides/permalink.js?hash='+permalink.resolverHash:siteRoot+READER_PATH+'/player.js');players++;}
   else if(node.tagName==='img'){const src=attr(node,'src');assert(src?.startsWith('assets/'),'Unexpected image');set(node,'src',siteRoot+release+'/'+src);}
   else if(node.tagName==='link'){assert(attr(node,'href')==='slides.css','Unexpected stylesheet');set(node,'href',siteRoot+release+'/slides.css');}

@@ -17,6 +17,9 @@
    const doc=new DOMParser().parseFromString(html,'text/html'),scripts=[...doc.querySelectorAll('script')];
    if(!doc.querySelector('body.standalone-reader')||scripts.length!==1||scripts[0].getAttribute('src')!==base+'reader/v1/player.js')throw Error('Lettore non disponibile');
    scripts[0].remove();
+   for(const meta of doc.querySelectorAll('meta[http-equiv]')){
+    if(meta.httpEquiv.toLowerCase()==='content-security-policy')meta.content=meta.content.replace(/(^|;)\s*connect-src\s+'none'/,"$1 connect-src 'self'");
+   }
    for(const slide of doc.querySelectorAll('section.slide'))slide.hidden=true;
    // Update a stale publication in the existing document. document.open/write
    // can reset Chrome's document lifecycle and disable native Translate.
