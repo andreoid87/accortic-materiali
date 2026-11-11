@@ -15,7 +15,7 @@
   if(document.body.dataset.publishedRef!==ref||document.body.dataset.readerVersion!=='2'){
    const html=await(await get('reader/v2/'+ref+'/index.html')).text();
    const doc=new DOMParser().parseFromString(html,'text/html'),scripts=[...doc.querySelectorAll('script')];
-   if(!doc.querySelector('body.standalone-reader')||scripts.length!==1||scripts[0].getAttribute('src')!==base+'reader/v1/player.js')throw Error('Lettore non disponibile');
+   if(!doc.querySelector('body.standalone-reader')||scripts.length!==1||scripts[0].getAttribute('src')!==base+'reader/v2/player.js')throw Error('Lettore non disponibile');
    scripts[0].remove();
    for(const meta of doc.querySelectorAll('meta[http-equiv]')){
     if(meta.httpEquiv.toLowerCase()==='content-security-policy')meta.content=meta.content.replace(/(^|;)\s*connect-src\s+'none'/,"$1 connect-src 'self'");
