@@ -38,3 +38,14 @@ test('permanent views permit only same-origin catalog reads and preserve every o
   assert.equal(await readFile('releases/'+release+'/index.html','utf8'),source);
  }
 });
+
+test('fullscreen v2 keeps legacy v1 views unchanged',async()=>{
+ const catalog=JSON.parse(await readFile('catalog.json','utf8'));
+ const release=catalog.current['periferiche-memorie-massa-google-slides-20261101'];
+ const source=await readFile('releases/'+release+'/index.html','utf8');
+ const v1=readerHtml(source,release),v2=readerHtml(source,release,undefined,'reader/v2');
+ assert(v1.includes('/reader/v1/player.js'));assert(!v1.includes('data-reader-version="2"'));
+ assert(v2.includes('/reader/v2/player.js'));assert(v2.includes('/reader/v2/reader.css'));
+ assert(v2.includes('data-reader-version="2"'));
+ assert.equal((v1.match(/<section /g)||[]).length,(v2.match(/<section /g)||[]).length);
+});

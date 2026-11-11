@@ -23,6 +23,7 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
   const first=await readFile(join(out,'slides/deck/index.html'),'utf8');
   assert(first.includes('alpha 1'),'Published text must be in the initial HTML for native language detection');assert(!first.includes('alpha 2'),'Queued publication leaked');
   const historical=await readFile(join(out,'reader/v1/deck/v1/index.html'));
+  assert((await readFile(join(out,'reader/v2/deck/v1/index.html'),'utf8')).includes('reader/v2/player.js'));
   const source=await readFile(join(root,'releases/deck/v1/index.html'));
   server=createServer(async(req,res)=>{
    try{
@@ -63,6 +64,17 @@ test('permalinks follow activated publications, preserve slide IDs and handle mi
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    await expect.poll(async()=>(await page.locator('section.slide:visible .canvas').boundingBox()).width).toBeLessThanOrEqual(width);
    await page.locator('#reader-fullscreen').click();await expect(page.locator('#reader-fullscreen')).toHaveAttribute('aria-pressed','true');
+   await expect(page.locator('header.reader-toolbar')).toBeHidden();
+   const viewport=page.locator('section.slide:visible .viewport'),rect=await viewport.boundingBox();
+   assert(rect&&Math.abs(rect.height-844)<5,'Fullscreen must occupy available height');
+   const frame=await page.locator('section.slide:visible .surface').boundingBox();
+   assert(frame&&frame.width<=rect.width+1&&frame.height<=rect.height+1,'Fullscreen slide must fit');
+   await page.mouse.click(rect.x+rect.width*.5,rect.y+rect.height*.6);
+   await expect(page.locator('header.reader-toolbar')).toBeVisible();
+   await page.mouse.click(rect.x+rect.width*.05,rect.y+rect.height*.6);
+   await expect(page.locator('#reader-position')).toHaveText('1 / 2');
+   await page.mouse.click(rect.x+rect.width*.95,rect.y+rect.height*.6);
+   await expect(page.locator('#reader-position')).toHaveText('2 / 2');
    await page.locator('#reader-fullscreen').click();await expect(page.locator('#reader-fullscreen')).toHaveAttribute('aria-pressed','false');
   }
   await page.goto(base+'reader/v1/deck/v1/#removed');await expect(page.locator('section.slide:visible')).toHaveText('removed 1');

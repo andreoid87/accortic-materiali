@@ -1,3 +1,7 @@
+## Lettore a schermo intero v2 — 2026-11-11
+
+I permalink `/slides/<materialId>/#<slideId>` e l'indice usano il lettore `/reader/v2/`. Lo schermo intero nasconde automaticamente i controlli e adatta la slide allo spazio disponibile mantenendo le proporzioni. I tocchi laterali cambiano slide, quello centrale mostra/nasconde i controlli; tastiera ed Esc restano disponibili. Il resolver aggiorna senza sostituire il documento anche un permalink v1 in cache. Le URL storiche `/reader/v1/` e tutti i file delle release rimangono invariati.
+
 # Materiali AccorTIC
 
 ## URL permanenti delle slide — 2026-11-08

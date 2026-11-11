@@ -12,8 +12,8 @@
   };
   const catalog=await(await get('catalog.json')).json(),ref=catalog.current?.[id];
   if(!/^[a-z0-9][a-z0-9-]{0,79}\/v[1-9][0-9]{0,5}$/.test(ref)||!ref.startsWith(id+'/v')||!catalog.releases?.includes(ref))throw Error('Presentazione non pubblicata');
-  if(document.body.dataset.publishedRef!==ref){
-   const html=await(await get('reader/v1/'+ref+'/index.html')).text();
+  if(document.body.dataset.publishedRef!==ref||document.body.dataset.readerVersion!=='2'){
+   const html=await(await get('reader/v2/'+ref+'/index.html')).text();
    const doc=new DOMParser().parseFromString(html,'text/html'),scripts=[...doc.querySelectorAll('script')];
    if(!doc.querySelector('body.standalone-reader')||scripts.length!==1||scripts[0].getAttribute('src')!==base+'reader/v1/player.js')throw Error('Lettore non disponibile');
    scripts[0].remove();
@@ -31,7 +31,7 @@
   document.body.dataset.materialId=id;
   document.body.dataset.publishedRef=ref;
   document.body.dataset.slidePermalink='true';
-  const player=document.createElement('script');player.src=base+'reader/v1/player.js?permalink='+fresh;
+  const player=document.createElement('script');player.src=base+'reader/v2/player.js?permalink='+fresh;
   player.onerror=()=>{status().textContent='Lettore non disponibile. Riprova più tardi.';};
   document.body.append(player);
  }catch{
