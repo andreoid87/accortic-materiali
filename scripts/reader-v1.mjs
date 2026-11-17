@@ -6,7 +6,8 @@ import {walk,attr,digest} from './core.mjs';
 
 export const READER_PATH='reader/v1';
 export const READER_V2_PATH='reader/v2';
-const siteRoot='/accortic-materiali/';
+const siteRoot=process.env.MATERIALS_SITE_ROOT??'/accortic-materiali/';
+assert(['/accortic-materiali/','/materiali/'].includes(siteRoot),'Unsupported materials site root');
 const controls='<nav class="reader-navigation" aria-label="Navigazione slide"><button id="reader-previous" type="button">← Precedente</button><output id="reader-position" aria-live="polite"></output><button id="reader-next" type="button">Successiva →</button></nav><button id="reader-fullscreen" type="button" aria-pressed="false">Schermo intero</button><button id="reader-return" type="button" hidden>Torna alla domanda</button><p id="reader-status" role="status" class="reader-status"></p>';
 const set=(node,name,value)=>{node.attrs??=[];const old=node.attrs.find(a=>a.name===name);if(old)old.value=value;else node.attrs.push({name,value});};
 
@@ -48,7 +49,9 @@ export async function buildReaders(catalog,out,root=process.cwd()){
  await copyFile(join(root,'runtime/reader-v1.css'),join(readerRoot,'reader.css'));
  const resources=await Promise.all(['player.js','reader.css'].map(async path=>({path:READER_PATH+'/'+path,sha256:digest(await readFile(join(readerRoot,path)))})));
  await mkdir(join(out,'slides'),{recursive:true});
- const resolver=await readFile(join(root,'runtime/permalink.js')),resolverHash=digest(resolver);
+ const originalResolver=await readFile(join(root,'runtime/permalink.js'),'utf8');
+ assert(originalResolver.includes("const base='/accortic-materiali/'"),'Unexpected permalink base');
+ const resolver=Buffer.from(originalResolver.replace("const base='/accortic-materiali/'","const base='"+siteRoot+"'")),resolverHash=digest(resolver);
  await writeFile(join(out,'slides/permalink.js'),resolver);
  resources.push({path:'slides/permalink.js',sha256:resolverHash});
  const index={version:1,resources,views:[],permalinks:[]};
