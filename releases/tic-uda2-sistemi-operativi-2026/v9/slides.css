@@ -1,0 +1,21 @@
+
+*{box-sizing:border-box}body{margin:0;background:#e8eeee;color:#15333b;font-family:Arial,Helvetica,sans-serif}header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px;background:#15333b;color:white}h1{font-size:18px;margin:0;flex:1}button,select,summary{font:inherit;cursor:pointer}button,select{padding:8px;border-radius:6px;border:1px solid #cce1e2}main{padding:16px}.slide{margin:0 auto 24px;max-width:960px}.viewport{width:100%;aspect-ratio:960/540;overflow:auto;background:#f6f5ef}.surface{position:relative;overflow:hidden}.canvas{position:absolute;left:0;top:0;width:960px;height:540px;transform-origin:top left}.element{position:absolute}.text{white-space:pre-wrap;line-height:1.1;padding:3px 6px;overflow:visible}.decoration{pointer-events:none}.picture{object-fit:fill}table{border-collapse:collapse;table-layout:fixed}td{padding:4px 5px;vertical-align:top;border-bottom:1px solid #cce1e2;white-space:pre-wrap}details{background:white;padding:12px;border:1px solid #cce1e2}.reading-body{font-size:18px;line-height:1.5;overflow-wrap:anywhere}.reading-body p{white-space:pre-wrap}.reading-body img{max-width:100%;max-height:70vh;object-fit:contain}.reading-body table{width:100%;font-size:16px}.source{color:#5c6c71}body.single header{display:none}body.single main{padding:0}.slide[hidden]{display:none}button:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #009fb2;outline-offset:2px}@media print{header{display:none}.slide{break-after:page}details{display:none}}
+
+
+/* Miniapp player host: overlay stays in the same DOM position as the slide object. */
+[data-accortic-miniapp="v1"]{display:flex;flex-direction:column;overflow:hidden;background:#f6f5ef;color:#15333b;border:2px solid #a3cbd1;border-radius:12px;box-sizing:border-box;isolation:isolate}
+.miniapp-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 10px;background:#e6f2f3;border-bottom:1px solid #aecdd4;min-height:51px;box-sizing:border-box}
+.miniapp-bar strong{font:700 17px/1.25 Arial,Helvetica,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.miniapp-bar button{flex:0 0 auto;min-height:44px;padding:8px 12px;border:1px solid #007b8d;background:#fff;color:#155267;font:700 15px Arial,sans-serif;touch-action:manipulation}
+.miniapp-bar button:focus-visible{outline:3px solid #009fb2;outline-offset:2px}
+.miniapp-viewport{position:relative;flex:1;min-height:0;overflow:hidden}
+.miniapp-viewport iframe{width:100%;height:100%;display:block;border:0;background:white}
+body.miniapp-open{overflow:hidden}
+body.miniapp-open .canvas{transform:none!important}
+body.miniapp-open .viewport,body.miniapp-open .surface{overflow:visible!important}
+[data-accortic-miniapp].miniapp-expanded{position:fixed!important;inset:0!important;left:0!important;top:0!important;width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;margin:0!important;border:0!important;border-radius:0!important;z-index:2147483000!important;transform:none!important;isolation:auto}
+.miniapp-expanded .miniapp-bar{min-height:70px;padding:9px 16px}
+.miniapp-expanded .miniapp-bar strong{font-size:23px}
+.miniapp-expanded .miniapp-bar button{min-height:52px;font-size:19px}
+@media(max-width:600px){.miniapp-bar{padding:4px 6px;gap:4px}.miniapp-bar strong{font-size:13px}.miniapp-bar button{font-size:13px;padding:5px 8px}.miniapp-expanded .miniapp-bar strong{font-size:17px}.miniapp-expanded .miniapp-bar button{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.miniapp-expanded,.miniapp-viewport{scroll-behavior:auto!important;transition:none!important}}
