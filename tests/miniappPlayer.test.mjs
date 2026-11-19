@@ -22,17 +22,17 @@ test('LIM Miniapp expands and returns without reloading its sandboxed frame or l
   await frame.getByRole('button',{name:'Aumenta'}).click();
   assert.equal(await frame.locator('#count').textContent(),'1');
   await page.evaluate(()=>{globalThis.__initialMiniappFrame=document.querySelector('[data-accortic-miniapp] iframe');});
-  await host.getByRole('button',{name:'Espandi per LIM'}).click();
+  await host.getByRole('button',{name:/Espandi .* per LIM/}).click();
   assert.match(await host.getAttribute('class')||'',/miniapp-expanded/);
   assert.equal(await page.evaluate(()=>globalThis.__initialMiniappFrame===document.querySelector('[data-accortic-miniapp] iframe')),true);
   const geometry=await host.boundingBox();
   assert(Math.abs(geometry.width-1366)<2,'Expanded host uses full viewport width');
   await frame.getByRole('button',{name:'Aumenta'}).click();
   assert.equal(await frame.locator('#count').textContent(),'2');
-  await host.getByRole('button',{name:'Torna alla slide'}).click();
+  await host.getByRole('button',{name:/Torna alla slide/}).click();
   assert.equal(await page.evaluate(()=>globalThis.__initialMiniappFrame===document.querySelector('[data-accortic-miniapp] iframe')),true);
   assert.equal(await frame.locator('#count').textContent(),'2');
-  await host.getByRole('button',{name:'Espandi per LIM'}).click();
+  await host.getByRole('button',{name:/Espandi .* per LIM/}).click();
   await page.keyboard.press('Escape');
   assert.equal(await host.evaluate(el=>el.classList.contains('miniapp-expanded')),false);
  }finally{await browser.close();}
