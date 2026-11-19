@@ -18,8 +18,8 @@ export function validateHtml(html,manifest){
    assert(n.tagName==='div'&&attr(n,'data-accortic-miniapp')==='v1','Invalid Miniapp marker');
    const id=attr(n,'data-accortic-miniapp-id')||'',title=attr(n,'data-accortic-miniapp-title')||'',url=attr(n,'data-accortic-miniapp-url')||'';
    assert(/^miniapp-[a-f0-9-]{36}$/.test(id)&&!miniappIds.has(id),'Invalid Miniapp ID');
-   assert(title.length>=1&&title.length<=90&&!/[<>\\r\\n]/.test(title),'Invalid Miniapp title');
-   assert(/^https:\\/\\/(?:accortic-b69ab\\.web\\.app|accordino\\.it)\\/miniapp\\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\\/v[1-9][0-9]{0,5}\\/$/.test(url),'Only versioned Firebase Miniapps allowed in published slides');
+   assert(title.length>=1&&title.length<=90&&!/[<>\r\n]/.test(title),'Invalid Miniapp title');
+   assert(/^https:\/\/(?:accortic-b69ab\.web\.app|accordino\.it)\/miniapp\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\/v[1-9][0-9]{0,5}\/$/.test(url),'Only versioned Firebase Miniapps allowed in published slides');
    miniappIds.add(id);miniappCount++;
   }
   for(const a of n.attrs??[]){assert(!a.prefix,'Namespaced attributes prohibited');assert(!/^on/i.test(a.name),'Event handlers prohibited');assert(!['srcdoc','srcset','action','formaction','is','contenteditable','xlink:href','xmlns:xlink'].includes(a.name),'Active attributes prohibited');if(a.name==='style')validateEditorialCss(a.value);if(a.name!=='style'&&/url\s*\(/i.test(a.value))assert(/^url\(#[A-Za-z0-9_-]+\)$/.test(a.value),'External SVG reference prohibited');if(a.name==='src')assert(n.tagName==='img'||n.tagName==='script','External element resource prohibited');if(a.name==='href'&&n.tagName!=='a'&&n.tagName!=='link')assert(/^#[A-Za-z0-9_-]+$/.test(a.value),'External SVG href prohibited');}
