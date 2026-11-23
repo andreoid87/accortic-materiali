@@ -8,7 +8,7 @@ selection.addEventListener('change',()=>{location.hash=selection.value;});docume
 
 /* Miniapp v1: trusted player creates an isolated frame from an approved marker.
    Editorial HTML never supplies iframe, srcdoc or script content. */
-const miniappRelease=/^https:\/\/(?:accortic-b69ab\.web\.app|accordino\.it)\/miniapp\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\/v[1-9][0-9]{0,5}\/$/;
+const miniappRelease=/^https:\/\/(?:(?:accortic-b69ab\.web\.app|accordino\.it)\/miniapp\/|andreoid87\.github\.io\/(?:[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\/)?miniapp\/)[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\/v[1-9][0-9]{0,5}\/$/;
 let openMiniapp=null;
 for(const host of document.querySelectorAll('div[data-accortic-miniapp="v1"]')){
   const url=host.getAttribute('data-accortic-miniapp-url')||'',

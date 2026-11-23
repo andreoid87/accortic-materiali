@@ -19,7 +19,7 @@ export function validateHtml(html,manifest){
    const id=attr(n,'data-accortic-miniapp-id')||'',title=attr(n,'data-accortic-miniapp-title')||'',url=attr(n,'data-accortic-miniapp-url')||'';
    assert(/^miniapp-[a-f0-9-]{36}$/.test(id)&&!miniappIds.has(id),'Invalid Miniapp ID');
    assert(title.length>=1&&title.length<=90&&!/[<>\r\n]/.test(title),'Invalid Miniapp title');
-   assert(/^https:\/\/(?:accortic-b69ab\.web\.app|accordino\.it)\/miniapp\/[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\/v[1-9][0-9]{0,5}\/$/.test(url),'Only versioned Firebase Miniapps allowed in published slides');
+   assert(/^https:\/\/(?:(?:accortic-b69ab\.web\.app|accordino\.it)\/miniapp\/|andreoid87\.github\.io\/(?:[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\/)?miniapp\/)[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\/v[1-9][0-9]{0,5}\/$/.test(url),'Only owner-hosted versioned Firebase or GitHub Pages Miniapps allowed');
    miniappIds.add(id);miniappCount++;
   }
   for(const a of n.attrs??[]){assert(!a.prefix,'Namespaced attributes prohibited');assert(!/^on/i.test(a.name),'Event handlers prohibited');assert(!['srcdoc','srcset','action','formaction','is','contenteditable','xlink:href','xmlns:xlink'].includes(a.name),'Active attributes prohibited');if(a.name==='style')validateEditorialCss(a.value);if(a.name!=='style'&&/url\s*\(/i.test(a.value))assert(/^url\(#[A-Za-z0-9_-]+\)$/.test(a.value),'External SVG reference prohibited');if(a.name==='src')assert(n.tagName==='img'||n.tagName==='script','External element resource prohibited');if(a.name==='href'&&n.tagName!=='a'&&n.tagName!=='link')assert(/^#[A-Za-z0-9_-]+$/.test(a.value),'External SVG href prohibited');}
@@ -35,7 +35,7 @@ export function validateHtml(html,manifest){
  assert(scripts===1&&(csp===CSP||(!miniappCount&&csp===LEGACY_CSP)),'Trusted player and restrictive CSP required');assert.deepEqual(ids,manifest.slideOrder,'Slide order mismatch');
 }
 export const LEGACY_CSP="default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
-export const CSP=LEGACY_CSP+"; frame-src https://accortic-b69ab.web.app https://accordino.it";
+export const CSP=LEGACY_CSP+"; frame-src https://accortic-b69ab.web.app https://accordino.it https://andreoid87.github.io";
 export async function validateRelease(root){
  const m=JSON.parse(await readFile(join(root,'material.json'),'utf8'));
  assert(m.schemaVersion===1&&/^[a-z0-9-]+$/.test(m.materialId)&&Number.isInteger(m.version)&&m.version>0,'Invalid identity');

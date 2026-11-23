@@ -58,3 +58,10 @@ Il repository applicativo contiene `.github/diagnostics/compile-materials.mjs`: 
 Questo repo valida anche gli stili statici del compilatore: vietati CSS con risorse esterne, import/font remoti, attributi attivi e riferimenti SVG esterni. I runtime/player approvati e tutte le release precedenti restano invariati. `npm test` copre i nuovi vincoli; `npm run build` conserva il controllo di immutabilità.
 
 Il candidato scrive esclusivamente in una nuova directory temporanea fuori `releases`, mai sovrascrivendo. Non legge il Drive autenticato, non certifica la revisione indicata dal chiamante, non committa/avvia Pages e non cambia `current`. L'artefatto locale di prova non è una release approvata. Il worker fidato deve ancora legare identità docente, snapshot/revisione Drive e approvazione, prima di compilare, pubblicare e attivare una nuova versione dopo lo smoke. Nessun token nella SPA.
+
+
+### Miniapp statiche ospitate su GitHub Pages
+
+L'editor accetta anche URL HTTPS del proprietario `andreoid87.github.io`, per esempio `https://andreoid87.github.io/accortic-miniapps/miniapp/ms-dos/v1/`. Per le nuove Miniapp: caricare HTML/CSS/JS in `miniapp/<slug>/vN/` su un proprio repository GitHub Pages, attendere il deploy Pages, copiare l'URL nel pannello Miniapp dell'editor. **Nessun deploy Firebase o modifica dell'editor per singolo modulo.** Non sono accettati altri account `github.io`. Nuove modifiche: creare `v2` mantenendo `v1` disponibile.
+
+GitHub Pages non permette header CSP personalizzati: il modulo deve includere meta CSP restrittiva nell'HTML e codice/risorse locali revisionati (nessun login, storage o dati studenti). La presentazione lo esegue sempre nell'iframe sandbox del player.

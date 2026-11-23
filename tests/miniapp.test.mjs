@@ -7,11 +7,13 @@ const wrap=(marker,policy=CSP)=>`<!doctype html><html><head><meta http-equiv="Co
 const id='miniapp-11111111-1111-4111-8111-111111111111';
 const marker=(url)=>`<div data-accortic-miniapp="v1" data-accortic-object="miniapp" data-accortic-miniapp-id="${id}" data-accortic-miniapp-title="Simulatore" data-accortic-miniapp-url="${url}" style="position:absolute;width:440px;height:270px"><p>Miniapp</p></div>`;
 
-test('published material allows only typed, Firebase-hosted, versioned Miniapp markers',()=>{
+test('published material allows only typed, owner-hosted, versioned Miniapp markers',()=>{
  const valid='https://accortic-b69ab.web.app/miniapp/concetto/v1/';
  assert.doesNotThrow(()=>validateHtml(wrap(marker(valid)),manifest));
  assert.doesNotThrow(()=>validateHtml(wrap(marker('https://accordino.it/miniapp/concetto/v24/')),manifest));
- for(const bad of ['https://evil.invalid/miniapp/concetto/v1/','http://accortic-b69ab.web.app/miniapp/concetto/v1/','https://accortic-b69ab.web.app/miniapp/concetto/latest/','https://accortic-b69ab.web.app/miniapp/concetto/v1/?session=1','javascript:alert(1)'])
+ assert.doesNotThrow(()=>validateHtml(wrap(marker('https://andreoid87.github.io/accortic-miniapps/miniapp/concetto/v1/')),manifest));
+ assert.doesNotThrow(()=>validateHtml(wrap(marker('https://andreoid87.github.io/miniapp/concetto/v1/')),manifest));
+ for(const bad of ['https://evil.invalid/miniapp/concetto/v1/','https://other-user.github.io/miniapp/concetto/v1/','https://andreoid87.github.io/some-repo/miniapp/concetto/latest/','https://andreoid87.github.io/some-repo/miniapp/concetto/v1/?x=1','http://accortic-b69ab.web.app/miniapp/concetto/v1/','https://accortic-b69ab.web.app/miniapp/concetto/latest/','https://accortic-b69ab.web.app/miniapp/concetto/v1/?session=1','javascript:alert(1)'])
   assert.throws(()=>validateHtml(wrap(marker(bad)),manifest),/Miniapp/);
  assert.throws(()=>validateHtml(wrap(marker(valid),LEGACY_CSP),manifest),/CSP/);
  assert.throws(()=>validateHtml(wrap(marker(valid)+marker(valid)),manifest),/Miniapp ID/);
