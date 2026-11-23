@@ -32,10 +32,12 @@ export function validateHtml(html,manifest){
   if(n.tagName==='body')assert(Number(attr(n,'data-slide-width'))===manifest.width&&Number(attr(n,'data-slide-height'))===manifest.height,'Canvas size mismatch');
   if(n.tagName==='section'&&(attr(n,'class')??'').split(' ').includes('slide'))ids.push(attr(n,'id'));
  });
- assert(scripts===1&&(csp===CSP||(!miniappCount&&csp===LEGACY_CSP)),'Trusted player and restrictive CSP required');assert.deepEqual(ids,manifest.slideOrder,'Slide order mismatch');
+ assert(scripts===1&&(csp===CSP||csp===PREVIOUS_CSP||(!miniappCount&&csp===LEGACY_CSP)),'Trusted player and restrictive CSP required');assert.deepEqual(ids,manifest.slideOrder,'Slide order mismatch');
 }
 export const LEGACY_CSP="default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'";
-export const CSP=LEGACY_CSP+"; frame-src https://accortic-b69ab.web.app https://accordino.it https://andreoid87.github.io";
+// Preserve previously published Miniapp releases byte-for-byte.
+export const PREVIOUS_CSP=LEGACY_CSP+"; frame-src https://accortic-b69ab.web.app https://accordino.it";
+export const CSP=PREVIOUS_CSP+" https://andreoid87.github.io";
 export async function validateRelease(root){
  const m=JSON.parse(await readFile(join(root,'material.json'),'utf8'));
  assert(m.schemaVersion===1&&/^[a-z0-9-]+$/.test(m.materialId)&&Number.isInteger(m.version)&&m.version>0,'Invalid identity');
